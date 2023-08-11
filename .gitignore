@@ -1,2 +1,5 @@
 .DS_Store
 *.pdf
+tools/bin/*.dat
+projects/*/*.out
+python/
