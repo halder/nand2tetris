@@ -47,7 +47,20 @@ As implemented using HDL in [project 1](projects/01/).
 * [DMux4Way](diagrams/dmux4way.png)
 * [DMux8Way](diagrams/dmux8way.png)
 
+<!--
 ---
 
-### FPGAs
-// Field Programmable Gate Arrays - tbd
+### Beyond NAND (FPGAs)
+Field Programmable Gate Arrays - tbd
+
+* Digital vs analog
+* LUTs
+* FPGAs
+    + [YouTube: *EEVblog*](https://www.youtube.com/watch?v=gUsHwi4M4xE&ab_channel=EEVblog)
+    + [YouTube: *Charles Clayton* (short)](https://www.youtube.com/watch?v=iHg0mmIg0UU&ab_channel=CharlesClayton)
+    + reprogrammable
+    + versatile (can do anything in the digital domain)
+    + fast
+    + parallel
+
+-->
