@@ -5,6 +5,7 @@ Building a working (simulated) *16*-bit computer from first principles. Working 
 * [Nand2Tetris Website](https://www.nand2tetris.org/)
 * [Coursera: Part I](https://www.coursera.org/learn/build-a-computer)
 * [Coursera: Part II](https://www.coursera.org/learn/nand2tetris2)
+* [HDL Survival Guide](https://www.nand2tetris.org/hdl-survival-guide)
 
 ---
 
@@ -47,20 +48,40 @@ As implemented using HDL in [project 1](projects/01/).
 * [DMux4Way](diagrams/dmux4way.png)
 * [DMux8Way](diagrams/dmux8way.png)
 
+#### 4. Boolean Arithmetic
+As implemented using HDL in [project 2](projects/02/).
+
+* [HalfAdder](diagrams/halfadder.png) (**Note**: Two half adders are required to build one full adder - hence the name)
+* [FullAdder](diagrams/fulladder.png)
+* [Add16](diagrams/add16.png)
+    * uses two XOR gates to compute the msb output
+    * this reduces the number of total gates used compared to a naive, HalfAdder + 15 FullAdder implementation
+* [ALU](diagrams/alu.png)
+    * uses two *Mux4Way16* to handle input transformations
+    * output is routed to **out**, **ng** & **zr** from the final *Mux16*
+        * output's msb suffices as an indicator for negative/positive output values
+        * output's lowest & highest 8 bits are routed into separate 8-way OR gates to check for 0 output
+
 <!--
 ---
 
-### Beyond NAND (FPGAs)
-Field Programmable Gate Arrays - tbd
+### Beyond Simulation (FPGAs)
+When it comes to building the Hack computer from real hardware, there are two options:
 
-* Digital vs analog
-* LUTs
-* FPGAs
-    + [YouTube: *EEVblog*](https://www.youtube.com/watch?v=gUsHwi4M4xE&ab_channel=EEVblog)
-    + [YouTube: *Charles Clayton* (short)](https://www.youtube.com/watch?v=iHg0mmIg0UU&ab_channel=CharlesClayton)
-    + reprogrammable
-    + versatile (can do anything in the digital domain)
-    + fast
-    + parallel
+* Using actual logic gates
+* Using Field Programmable Gate Arrays (FPGAs)
+
+FPGAs can be programmed to mimic *any* chip one can think of (within the borders of the actual limitations by the FPGA itself) using reprogrammable cores (CLT?).
+
+**Notes**
+* FPGAs **cannot** process *analog* signals - limited to *digital* domain
+* many, many CLT which are programmable and can mimic *any* logic gate
+    * using Look-Up Tables (LUTs) - think: [Truth tables](https://en.wikipedia.org/wiki/Truth_table#Binary_operations)
+* programmable using a HDL such as Verilog or VHDL
+
+**Resources**
+* [YouTube: *EEVblog*](https://www.youtube.com/watch?v=gUsHwi4M4xE&ab_channel=EEVblog)
+* [YouTube: *Charles Clayton*](https://www.youtube.com/watch?v=iHg0mmIg0UU&ab_channel=CharlesClayton)
+* [From the Transistor to the Web Browser (geohot)](https://github.com/geohot/fromthetransistor)
 
 -->
