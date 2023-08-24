@@ -28,7 +28,7 @@ Building upon these basic gates we build the ALU, Memory and eventually the full
 Similarly to the 16-bit computer, 32-bit (64-bit respectively) computers require 32-bit (64-bit) variants of logic gates.
 
 ### Notes
-* [Boolean Logic](nand2tetris/notes/bool.md)
+* [Boolean Logic](notes/bool.md)
 * [Boolean Functions and Gate Logic](notes/gates.md)
 * [Boolean Arithmetic and the ALU](notes/alu.md)
 * [Sequential Logic and Memory](notes/memory.md)
