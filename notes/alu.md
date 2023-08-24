@@ -1,12 +1,12 @@
 # Boolean Arithmetic and the ALU
-As implemented using HDL in [project 2](projects/02/).
+As implemented using HDL in [project 2](../projects/02/).
 
-* [HalfAdder](diagrams/halfadder.png) (**Note**: Two half adders are required to build one full adder - hence the name)
-* [FullAdder](diagrams/fulladder.png)
-* [Add16](diagrams/add16.png)
+* [HalfAdder](../diagrams/halfadder.png) (**Note**: Two half adders are required to build one full adder - hence the name)
+* [FullAdder](../diagrams/fulladder.png)
+* [Add16](../diagrams/add16.png)
     * uses two XOR gates to compute the msb output
     * this reduces the number of total gates used compared to a naive, HalfAdder + 15 FullAdder implementation
-* [ALU](diagrams/alu.png)
+* [ALU](../diagrams/alu.png)
     * uses two *Mux4Way16* to handle input transformations
     * output is routed to **out**, **ng** & **zr** from the final *Mux16*
         * output's msb suffices as an indicator for negative/positive output values
