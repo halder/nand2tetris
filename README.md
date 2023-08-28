@@ -3,7 +3,7 @@
 ### Contents
 * [Intro](#intro)
 * [Simulation (Coursework)](#a-simulation---from-logic-gates-to-the-hack-computer)
-    * [Notes](#notes)
+    * [Summary (Notes)](#summary)
 * [Beyond Simulation](#b-beyond-simulation)
     * [Transistors](#transistors)
     * [FPGAs](#field-programmable-gate-arrays-fpgas)
@@ -27,11 +27,13 @@ Building upon these basic gates we build the ALU, Memory and eventually the full
 
 Similarly to the 16-bit computer, 32-bit (64-bit respectively) computers require 32-bit (64-bit) variants of logic gates.
 
-### Notes
-* [Boolean Logic](notes/bool.md)
-* [Boolean Functions and Gate Logic](notes/gates.md)
-* [Boolean Arithmetic and the ALU](notes/alu.md)
-* [Sequential Logic and Memory](notes/memory.md)
+### Summary
+|Notes|Topic|Related Project|
+|---|---|---|
+|[**Boolean Logic**](notes/bool.md)|[*Boolean Logic*](https://www.nand2tetris.org/_files/ugd/44046b_f2c9e41f0b204a34ab78be0ae4953128.pdf)|1|
+|[**Boolean Functions and Gate Logic**](notes/gates.md)|[*Boolean Logic*](https://www.nand2tetris.org/_files/ugd/44046b_f2c9e41f0b204a34ab78be0ae4953128.pdf)|1|
+|[**Boolean Arithmetic and the ALU**](notes/alu.md)|[*Boolean Arithmetic*](https://www.nand2tetris.org/_files/ugd/44046b_f0eaab042ba042dcb58f3e08b46bb4d7.pdf)|2|
+|[**Sequential Logic and Memory**](notes/memory.md)|[*Sequential Logic*](https://www.nand2tetris.org/_files/ugd/44046b_862828b3a3464a809cda6f44d9ad2ec9.pdf)|3|
 
 ## B. Beyond Simulation
 When it comes to building the Hack computer from real hardware, there are two options:

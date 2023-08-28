@@ -6,6 +6,7 @@ As implemented using HDL in [project 2](../projects/02/).
 * [Add16](../diagrams/add16.png)
     * uses two XOR gates to compute the msb output
     * this reduces the number of total gates used compared to a naive, HalfAdder + 15 FullAdder implementation
+    * **Note**: 2's complement is a **convention** and requires implementation; the Adder has **no way** of "knowing" whether it performs *addition* or *subtraction*
 * [ALU](../diagrams/alu.png)
     * uses two *Mux4Way16* to handle input transformations
     * output is routed to **out**, **ng** & **zr** from the final *Mux16*

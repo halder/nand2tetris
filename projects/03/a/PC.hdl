@@ -12,9 +12,18 @@
  */
 
 CHIP PC {
-    IN in[16],load,inc,reset;
+    IN in[16], load, inc, reset;
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+        Inc16(in=state, out=add);
+        
+        // select current state or state incremented by 1
+        Mux16(a=state, b=add, sel=inc, out=sel1);
+        // select previous selection (state or increment) or set counter to input
+        Mux16(a=sel1, b=in, sel=load, out=sel2);
+        // select previous selection (state, increment or input) or reset to 0
+        Mux16(a=sel2, b=false, sel=reset, out=sel3);
+        
+        Register(in=sel3, load=true, out=state, out=out);
 }

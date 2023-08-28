@@ -54,6 +54,6 @@ Construct boolean functions from primitive operations.
 **Theorem**: *Any* boolean function can be represented using an expression containing only **NAND** operations.
 
 * $\text{NOT}(x) = x \text{ NAND } x$
-    * $\text{NAND(x, x)}$
+    * $\text{NAND}(x, x)$
 * $x \text{ AND } y = \text{NOT}(x \text{ NAND } y)$
     * $\text{NAND}(\text{NAND}(x, x), \text{NAND}(y, y))$
