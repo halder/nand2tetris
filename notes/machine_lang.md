@@ -28,6 +28,7 @@ An incomplete list of operations defined in the machine language:
 
 **Project**
 * [Fill](../projects/04/Fill.asm)
+    * two loops (listen & fill) only; store & grab color selection in dedicated variable
 * [Mult](../projects/04/Mult.asm)
     * checks which of `a`, `b` is smaller in order to reduce number of iterations
     
