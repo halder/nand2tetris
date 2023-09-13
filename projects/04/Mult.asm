@@ -9,18 +9,22 @@
 // This program only needs to handle arguments that satisfy
 // R0 >= 0, R1 >= 0, and R0*R1 < 32768.
 
+    @prod
+    M=0
+
     @R0         // grab a value
     D=M
     @a
     M=D
+    @OUT        // end if a <= 0
+    D;JLE
 
     @R1
     D=M
     @b          // grab b value
     M=D
-
-    @prod
-    M=0
+    @OUT        // end if b <= 0
+    D;JLE
 
     // check which of the two is smaller
     // if: a - b < 0 then a < b (case A)
