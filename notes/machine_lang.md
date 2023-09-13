@@ -38,3 +38,4 @@ An incomplete list of operations defined in the machine language:
 * [Sum1toN](../projects/04/examples/Sum1toN.asm)
 * [Array](../projects/04/examples/Array.asm)
 * [Rectangle](../projects/04/examples/Rectangle.asm)
+* [InfLoop](../projects/04/examples/InfLoop.asm)
