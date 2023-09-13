@@ -10,14 +10,11 @@
 // array of length 10 in memory address starting at 100
 
     // set variables
-    @R0     // n
-    D=M
+    @10     // n
+    D=A
     @n
     M=D
 
-    @i
-    M=0
-    
     @100    // fix array location in memory to address 100 (up until 100+n)
     D=A
     @arr    // pointer holds current relevant array slot (in memory)
@@ -33,10 +30,6 @@
     // set pointer to next array slot
     @arr
     M=D+1
-
-    // increment counter
-    @i
-    M=M+1
 
     // decrement length counter & check END condition
     @n

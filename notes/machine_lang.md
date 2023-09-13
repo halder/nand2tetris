@@ -24,7 +24,7 @@ An incomplete list of operations defined in the machine language:
     * floating point, ...
 
 ### Hack Programs
-[Project 4](../projects/04/) and lecture programs in order to get a better understanding of assembly programming in the Hack language.
+[Project 4](../projects/04/), lecture examples & custom programs in order to get a better understanding of assembly programming in the Hack language.
 
 **Project**
 * [Fill](../projects/04/Fill.asm)
@@ -32,6 +32,14 @@ An incomplete list of operations defined in the machine language:
 * [Mult](../projects/04/Mult.asm)
     * checks which of `a`, `b` is smaller in order to reduce number of iterations
     
+**Arrays**
+* [ArraySet](../projects/04/examples/ArraySet.asm)
+    * Creates an array of length 10 from values in registers 0-9
+* [ArrayMax](../projects/04/examples/ArrayMax.asm)
+    * Returns maximum value of an array
+    * Array is to be set using `ArraySet.asm` first (or manually)
+    * Array resides in RAM[100] - RAM[109]
+
 **Examples**
 * [Flip](../projects/04/examples/Flip.asm)
 * [Signum](../projects/04/examples/Signum.asm)
