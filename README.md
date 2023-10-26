@@ -1,5 +1,13 @@
 # Nand To Tetris Coursework
 
+![title img](img/simplicity.png)
+
+> *"An idiot admires complexity, a genius admires simplicity."*
+>
+> &mdash; the smartest programmer that has ever lived 
+
+---
+
 ### Contents
 * [Intro](#intro)
 * [Simulation (Coursework)](#a-simulation---from-logic-gates-to-the-hack-computer)
@@ -30,12 +38,12 @@ Similarly to the 16-bit computer, 32-bit (64-bit respectively) computers require
 ### Summary
 |Notes / Programs|Topic|Related Project|
 |---|---|---|
-|[**Boolean Logic**](notes/bool.md)|[*Boolean Logic*](https://www.nand2tetris.org/_files/ugd/44046b_f2c9e41f0b204a34ab78be0ae4953128.pdf)|1|
-|[**Boolean Functions and Gate Logic**](notes/gates.md)|[*Boolean Logic*](https://www.nand2tetris.org/_files/ugd/44046b_f2c9e41f0b204a34ab78be0ae4953128.pdf)|1|
-|[**Boolean Arithmetic and the ALU**](notes/alu.md)|[*Boolean Arithmetic*](https://www.nand2tetris.org/_files/ugd/44046b_f0eaab042ba042dcb58f3e08b46bb4d7.pdf)|2|
-|[**Sequential Logic and Memory**](notes/memory.md)|[*Sequential Logic*](https://www.nand2tetris.org/_files/ugd/44046b_862828b3a3464a809cda6f44d9ad2ec9.pdf)|3|
-|[**Machine Language**](notes/machine_lang.md/)|[*Machine Language*](https://www.nand2tetris.org/_files/ugd/44046b_7ef1c00a714c46768f08c459a6cab45a.pdf)|4|
-
+|[**Boolean Logic**](notes/bool.md)|[*Boolean Logic*](https://drive.google.com/file/d/1MY1buFHo_Wx5DPrKhCNSA2cm5ltwFJzM/view)|1|
+|[**Boolean Functions and Gate Logic**](notes/gates.md)|[*Boolean Logic*](https://drive.google.com/file/d/1MY1buFHo_Wx5DPrKhCNSA2cm5ltwFJzM/view)|1|
+|[**Boolean Arithmetic and the ALU**](notes/alu.md)|[*Boolean Arithmetic*](https://drive.google.com/file/d/1ie9s3GjM2TrvL7PrEZJ00gEwezgNLOBm/view)|2|
+|[**Sequential Logic and Memory**](notes/memory.md)|[*Sequential Logic*](https://drive.google.com/file/d/1boFooygPrxMX-AxzogFYIZ-8QsZiDz96/view)|3|
+|[**Machine Language**](notes/machine_lang.md/)|[*Machine Language*](https://drive.google.com/file/d/1HxjPmIZkFHl-BVW3qoz8eD9dqEuEyuBI/view)|4|
+|[**Architecture**](notes/architecture.md)|[*Computer Architecture*](https://drive.google.com/file/d/1nEptWuRpFF9zmqlKYq6s1UfDB_dd16vx/view)|5|
 
 ## B. Beyond Simulation
 When it comes to building the Hack computer from real hardware, there are two options:

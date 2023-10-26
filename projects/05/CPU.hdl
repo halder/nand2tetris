@@ -39,5 +39,73 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
+        // --- Decode instruction ---
+
+        // --- Instruction type ---
+        // if msb==1 -> C-instruction, if msb==0 -> A-instruction
+        And(a=true, b=instruction[15], out=instrC);
+        Not(in=instrC, out=instrA);
+
+        // --- Load control ---
+        // load A register ONLY if A-instruction OR "A=" C-instruction (important error: do NOT load instruction in general)
+        And(a=instrC, b=instruction[5], out=instrAEq);
+        Or(a=instrA, b=instrAEq, out=loadA);
+
+        // load D register if "D=" C-instruction
+        And(a=instrC, b=instruction[4], out=loadD);
+
+        // load (write) M register if "M=" C-instruction
+        And(a=instrC, b=instruction[3], out=writeM);
+        
+        // --- Toggle control ---
+        // toggle between feeding A-register output and Memory register output into ALU
+        And(a=instrC, b=instruction[12], out=toggleM);
+
+        // --- ALU compute control ---
+        And(a=instrC, b=instruction[6], out=no);
+        And(a=instrC, b=instruction[7], out=f);
+        And(a=instrC, b=instruction[8], out=ny);
+        And(a=instrC, b=instruction[9], out=zy);
+        And(a=instrC, b=instruction[10], out=nx);
+        And(a=instrC, b=instruction[11], out=zx);
+
+        // --- Jump control ---
+        And(a=instrC, b=instruction[0], out=jmpG);  // jump bit if ALU out  > 0
+        And(a=instrC, b=instruction[1], out=jmpE);  //          - " -       = 0
+        And(a=instrC, b=instruction[2], out=jmpL);  //          - " -       < 0
+
+        // ALU output control bits cannot both be 1;
+        // if zr == ng == 0 then positive outALU
+        Or(a=zr, b=ng, out=zrng);
+        Not(in=zrng, out=pos);
+
+        // match jump bits with ALU output
+        And(a=jmpG, b=pos, out=jPOS);
+        And(a=jmpE, b=zr, out=jZER);
+        And(a=jmpL, b=ng, out=jNEG);
+
+        // jump if any of the three conditions is met
+        Or(a=jPOS, b=jZER, out=jTMP);
+        Or(a=jTMP, b=jNEG, out=jmp);
+
+        // if no jump, increment (default)
+        Not(in=jmp, out=inc);
+
+        // --- Data flow ---
+        // select ALU output only for "A=" instructions, needed for e.g. A=A+1 (here outALU is the 'A' on the RIGHT side of the assignment)
+        Mux16(a=instruction, b=outALU, sel=instrAEq, out=inA);
+        ARegister(in=inA, load=loadA, out=outA, out[0..14]=addressM);
+
+        Mux16(a=outA, b=inM, sel=toggleM, out=outAM);
+
+        DRegister(in=outALU, load=loadD, out=outD);
+
+        ALU(
+            x=outD, y=outAM,
+            zx=zx, nx=nx, zy=zy, ny=ny, f=f, no=no,
+            out=outALU, out=outM,
+            zr=zr, ng=ng
+        );
+
+        PC(in=outA, load=jmp, inc=inc, reset=reset, out[0..14]=pc);
 }
