@@ -6,8 +6,6 @@
 >
 > &mdash; the smartest programmer that has ever lived 
 
----
-
 ### Contents
 * [Intro](#intro)
 * [Simulation (Coursework)](#a-simulation---from-logic-gates-to-the-hack-computer)
