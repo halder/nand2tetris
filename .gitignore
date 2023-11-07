@@ -5,6 +5,7 @@ tools/
 projects/**/*.out
 projects/**/*.cmp
 projects/**/*.tst
+projects/06/**/*.asm
 projects/07/
 projects/08/
 projects/09/
