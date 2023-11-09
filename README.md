@@ -17,14 +17,15 @@
 ## Intro
 Building a working, **simulated** *16*-bit computer from first principles. Working through the chapters/projects using Coursera.
 
-**Resources**
+**Course Resources**
 * [Nand2Tetris Website](https://www.nand2tetris.org/)
 * [Coursera: Part I](https://www.coursera.org/learn/build-a-computer)
 * [Coursera: Part II](https://www.coursera.org/learn/nand2tetris2)
 * [HDL Survival Guide](https://www.nand2tetris.org/hdl-survival-guide)
 
-If interested, see also (note: **very long**):
-* [[YouTube: ***Ben Eater***] Building an 8-bit breadboard computer](https://www.youtube.com/playlist?list=PLowKtXNTBypGqImE405J2565dvjafglHU)
+**Supplementary Resources**
+* [[YouTube: ***Sebastian Lague***] Exploring How Computers Work](https://www.youtube.com/watch?v=QZwneRb-zqA&ab_channel=SebastianLague)
+* [[YouTube: ***Ben Eater***] Building an 8-bit breadboard computer](https://www.youtube.com/playlist?list=PLowKtXNTBypGqImE405J2565dvjafglHU) (*note*: very long)
 
 ## A. Simulation - From Logic Gates to the Hack Computer
 This is where the journey starts. Building elementary, 16-bit variant (bus input) & multi-way variant logic gates starting from just NAND.
