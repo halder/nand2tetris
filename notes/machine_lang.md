@@ -17,6 +17,14 @@ An incomplete list of operations defined in the machine language:
 * Flow Control
     * goto, if A then goto B
 
+### Pointers
+Variables that **store memory addresses** are called *pointers*.
+
+E.g. iterating over an array; the *pointer* holds the memory address of the **currently relevant array index** (`pointer = memory_base_address + current_offset`)
+
+**Typical pointer semantics:**
+"set the *address register* to the contents of some *memory register*."
+
 ### Differences between Machine Languages
 * Set of operations (multiplication/division hardware or software?)
 * Data types
