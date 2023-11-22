@@ -5,8 +5,10 @@ tools/
 projects/**/*.out
 projects/**/*.cmp
 projects/**/*.tst
+projects/**/*.vm
 projects/06/**/*.asm
-projects/07/
+projects/07/**/*.asm
+!projects/07/vm_command_logic.asm
 projects/08/
 projects/09/
 projects/1*/

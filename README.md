@@ -44,6 +44,7 @@ Similarly to the 16-bit computer, 32-bit (64-bit respectively) computers require
 |[**Machine Language**](notes/machine_lang.md/)|[*Machine Language*](https://drive.google.com/file/d/1HxjPmIZkFHl-BVW3qoz8eD9dqEuEyuBI/view)|4|
 |[**Architecture**](notes/architecture.md)|[*Computer Architecture*](https://drive.google.com/file/d/1nEptWuRpFF9zmqlKYq6s1UfDB_dd16vx/view)|5|
 |[**Assembler**](notes/assembler.md)|[*Assembler*](https://drive.google.com/file/d/1uKGRMnL-gqk9DsgeN50z0EpHoSMWe6F5/view)|6|
+|[**Virtual Machine: Architecture**](notes/vm_architecture.md)|[*VM I: Stack Arithmetic*](https://drive.google.com/file/d/1BPmhMLu_4QTcte0I5bK4QBHI8SACnQSt/view)|7|
 
 ## B. Beyond Simulation
 When it comes to building the Hack computer from real hardware, there are two options:
