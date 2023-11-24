@@ -12,6 +12,9 @@ In order to write a VM translator, one must be familiar with:
     * how to map VM data structures on host RAM?
     * how to express VM commands in host assembly/machine language?
 
+**Resources**
+* [On the JVM & virtualization (SO)](https://stackoverflow.com/questions/441824/java-virtual-machine-vs-python-interpreter-parlance)
+
 ### Contents
 * [VM Abstraction](#vm-abstraction)
     * [The Stack](#the-stack)
