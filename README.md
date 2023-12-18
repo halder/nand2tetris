@@ -4,7 +4,7 @@
 
 > *"An idiot admires complexity, a genius admires simplicity."*
 >
-> &mdash; the smartest programmer that has ever lived 
+> &mdash; Terry A. Davis
 
 ### Contents
 * [Intro](#intro)
@@ -45,6 +45,7 @@ Similarly to the 16-bit computer, 32-bit (64-bit respectively) computers require
 |[**Architecture**](notes/architecture.md)|[*Computer Architecture*](https://drive.google.com/file/d/1nEptWuRpFF9zmqlKYq6s1UfDB_dd16vx/view)|5|
 |[**Assembler**](notes/assembler.md)|[*Assembler*](https://drive.google.com/file/d/1uKGRMnL-gqk9DsgeN50z0EpHoSMWe6F5/view)|6|
 |[**Virtual Machine: Architecture**](notes/vm_architecture.md)|[*VM I: Stack Arithmetic*](https://drive.google.com/file/d/1BPmhMLu_4QTcte0I5bK4QBHI8SACnQSt/view)|7|
+|[**Virtual Machine: Flow**](notes/vm_flow.md)|[*VM II: Program Control*](https://drive.google.com/file/d/1BexrNmdqYhKPkqD_Y81qNAUeyfzl-ZtO/view)|8|
 
 ## B. Beyond Simulation
 When it comes to building the Hack computer from real hardware, there are two options:
