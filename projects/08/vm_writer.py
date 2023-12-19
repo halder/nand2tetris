@@ -20,16 +20,19 @@ def write_assembly(cmd_type, arg1, arg2, command_cnt, filename, current_function
         asm_command = f"\t{asm_command}"
 
     elif cmd_type == "C_FUNCTION":
-        asm_command = "\n\t".join(ASM[cmd_type]).replace("%%FNAME%%", f"{arg1}").replace("%%NLCL%%", f"{arg2}").replace("%%CNT%%", f"{command_cnt}")
-        asm_command = asm_command.replace("\n\t(", "\n(")
+        if arg2 > 0:
+            asm_command = "\n\t".join(ASM[cmd_type]).replace("%%FNAME%%", f"{arg1}").replace("%%NLCL%%", f"{arg2}").replace("%%CNT%%", f"{command_cnt}")
+            asm_command = asm_command.replace("\n\t(", "\n(")
+        else:
+            asm_command = f"({arg1})"
 
     elif cmd_type == "C_RETURN":
-        asm_command = "\n\t".join(ASM[cmd_type])
-        asm_command = f"\t{asm_command}"
+        asm_command = "\t@__GLOB_FUNCTION_RETURN\n\t0;JMP"
 
     elif cmd_type == "C_CALL":
         asm_command = "\n\t".join(ASM[cmd_type]).replace("%%FNAME%%", f"{arg1}").replace("%%NARG%%", f"{arg2}").replace("%%CNT%%", f"{command_cnt}")
         asm_command = asm_command.replace("\n\t(", "\n(")
+        asm_command = f"\t{asm_command}"
 
     return asm_command
 

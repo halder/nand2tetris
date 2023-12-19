@@ -3,7 +3,11 @@ import os
 
 import vm_parser
 import vm_writer
-from asm_map import ASM
+from asm_map import GLOBALS
+
+def write_global_asm(command):
+    return "\n\t".join(GLOBALS[command]).replace("\n\t(", "\n(")
+
 
 cwd = os.getcwd()
 arg = sys.argv[1]
@@ -26,10 +30,11 @@ else:
 os.chdir(cwd)
 
 with open(f"{arg}/{asm_filename}", "a") as target_file:
-    target_file.write("\n\t".join(ASM["INIT_SP"]))
-    bootstrap_code = vm_writer.write_assembly("C_CALL", "Sys.init", 0, "00", asm_filename, "bootstrap")
-    target_file.write(f"\n\t{bootstrap_code}\n")
-
+    target_file.write(f"\t{write_global_asm('JUMP_INIT')}\n")
+    target_file.write(f"{write_global_asm('SAVE_FRAME')}\n")
+    target_file.write(f"{write_global_asm('FUNC_RETURN')}\n")
+    target_file.write(f"{write_global_asm('SYS_INIT')}\n")
+    
     command_cnt = 0
     current_function = None
     
@@ -54,7 +59,7 @@ with open(f"{arg}/{asm_filename}", "a") as target_file:
 
                 command_cnt += 1
 
-    target_file.write("\n\t".join(ASM["HALT"]))
+    target_file.write(write_global_asm("HALT"))
 
 
     print(f"done w/ file: {vm_file}")
