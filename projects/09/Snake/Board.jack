@@ -1,0 +1,157 @@
+class Board {
+    static String SCORE, DEAD, RETRY, QUIT, ENTER, HIGH;
+    static int HIGHSCORE;
+    field Game game;
+
+    constructor Board new() {
+        let SCORE = "SCORE: ";
+        let DEAD = "YOU DIED.";
+        let RETRY = "RETRY";
+        let QUIT = "QUIT";
+        let ENTER = "hit ENTER";
+        let HIGH = "HIGHSCORE: ";
+        let HIGHSCORE = 1;
+
+        do resetBoard();
+        let game = Game.new();
+        return this;
+    }
+
+
+    method void dispose() {
+        do SCORE.dispose();
+        do DEAD.dispose();
+        do RETRY.dispose();
+        do QUIT.dispose();
+        do ENTER.dispose();
+        do HIGH.dispose();
+
+        do game.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+
+    method void playOneGame() {
+        var int gameScore;
+
+        let gameScore = game.run();
+        
+        if (gameScore > HIGHSCORE) {
+            let HIGHSCORE = gameScore;
+            do Board.printScore(HIGHSCORE, true);
+        }
+        return;
+    }
+
+
+    method void resetGame() {
+        do game.dispose();
+
+        do resetBoard();
+
+        let game = Game.new();
+        return;
+    }
+
+
+    function void printScore(int score, boolean highscore) {
+        if (highscore) {
+            do Output.moveCursor(1, 49);
+            do Output.printString(HIGH);
+        }
+        else {
+            do Output.moveCursor(1, 26);
+            do Output.printString(SCORE);
+        }
+        
+        if (score < 100) {
+            do Output.printInt(0);
+        }
+        if (score < 10) {
+            do Output.printInt(0);
+        }
+        do Output.printInt(score);
+
+        return;
+    }
+
+
+    method void resetBoard() {
+        do Screen.clearScreen();
+
+        // playing field borders
+        do Screen.setColor(true);
+        do Screen.drawRectangle(0, 25, 511, 27);    // top
+        do Screen.drawRectangle(0, 253, 511, 255);  // bottom
+        do Screen.drawRectangle(0, 25, 5, 255);     // left
+        do Screen.drawRectangle(506, 25, 511, 255); // right
+
+        do Board.printScore(HIGHSCORE, true);
+
+        return;
+    }
+
+
+    method boolean continue() {
+        var char key;
+        var boolean choice;
+
+        do printOptions();
+        // default: retry
+        do select(true);
+        let choice = true;
+
+        while (~(key = 128)) {
+            let key = Keyboard.keyPressed();
+
+            if (key = 130) {    // left arrow
+                do select(true);
+                let choice = true;
+            }
+            if (key = 132) {    // right arrow
+                do select(false);
+                let choice = false;
+            }
+        }
+        return choice;
+    }
+
+
+    method void printOptions() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(170, 105, 320, 220);
+
+        do Output.moveCursor(12, 27);
+        do Output.printString(DEAD);
+
+        do Output.moveCursor(14, 25);
+        do Output.printString(RETRY);
+
+        do Output.moveCursor(14, 33);
+        do Output.printString(QUIT);
+
+        do Output.moveCursor(17, 27);
+        do Output.printString(ENTER);
+        return;
+    }
+
+
+    method void select(boolean retry) {
+        if (retry) {
+            do Screen.setColor(true);
+            do Screen.drawLine(198, 167, 240, 167);
+
+            do Screen.setColor(false);
+            do Screen.drawLine(262, 167, 294, 167);
+        }
+        else {
+            do Screen.setColor(false);
+            do Screen.drawLine(198, 167, 240, 167);
+
+            do Screen.setColor(true);
+            do Screen.drawLine(262, 167, 294, 167);
+        }
+        return;
+    }
+}

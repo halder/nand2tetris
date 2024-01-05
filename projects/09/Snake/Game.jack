@@ -1,0 +1,218 @@
+/*
+TODO:
+    - Smoothness (if possible): Slow speed but good button response?
+    - Difficulty
+*/
+
+class Game {
+    field Snake snake;
+    field Basket basket;
+    field int direction;
+    field boolean dead;
+
+
+    constructor Game new() {
+        let direction = 0;
+
+        let snake = Snake.new();
+        let dead = false;
+        let basket = Basket.new();
+        
+        return this;
+    }
+
+    method void dispose() {
+        do snake.dispose();
+        do basket.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+
+    method void initiate() {
+        do basket.initiate(snake.bodyX(), snake.bodyY(), snake.length());
+        do drawApples();
+        return;
+    }
+
+
+    method int tryToEat() {
+        var int eat, i, hx, hy;
+        var Array ax, ay;
+
+        let ax = basket.applesX(); // array
+        let ay = basket.applesY();
+
+        let hx = snake.headX(); // int
+        let hy = snake.headY();
+
+        let eat = -1;
+        
+        let i = 0;
+        while (i < 3) {  // loop through apples; check vs. head position
+            if ((ax[i] = hx) & (ay[i] = hy)) {
+                let eat = i;
+            }
+            let i = i + 1;
+        }
+
+        return eat;
+    }
+
+
+    method void eat(int i) {
+        do snake.grow();
+        do basket.remove(i);
+
+        return;
+    }
+
+
+    method void moveSnake() {
+        var int i;
+        
+        let i = tryToEat();
+        if (~(i = -1)) {
+            do eat(i);
+            do basket.fill(snake.bodyX(), snake.bodyY(), snake.length()-1);
+        }
+
+        do Board.printScore(snake.length(), false);
+        do drawApples();
+        do snake.moveDir(direction);
+
+        do Sys.wait(70); // TODO: do difficulty here!
+    
+        return;
+    }
+
+
+    method void checkNextMove() {
+        // check if next move is valid or will lead to death
+        var int i, hx, hy, bx, by;
+
+        let hx = snake.headX();
+        let hy = snake.headY();
+
+        let bx = snake.bodyX();
+        let by = snake.bodyY();
+
+        if (direction = 1) { let hy = hy - 25; }
+        if (direction = 2) { let hy = hy + 25; }
+        if (direction = 3) { let hx = hx - 25; }
+        if (direction = 4) { let hx = hx + 25; }
+
+        if ((hy < (3 + 25)) | (hy > 252) | (hx < 6) | (hx > 505)) {
+            let dead = true;
+        }
+
+        let i = 1;
+        while (i < snake.length()) {
+            if ((hx = bx[i]) & (hy = by[i])) {
+                let dead = true;
+            }
+            let i = i + 1;
+        }
+        return;
+    }
+
+
+    method int run() {
+        var char key;
+        var boolean choice;
+
+        do initiate();
+        let direction = 4;
+
+        while (~dead) {
+            while (key = 0) {
+                do checkNextMove();
+
+                if (dead) {
+                    return snake.length();
+                }
+                else {
+                    let key = Keyboard.keyPressed();
+                    do moveSnake();
+                }
+            }
+
+            if ((key = 131) & ~(direction = 2)) { let direction = 1; }   // up arrow
+            if ((key = 133) & ~(direction = 1)) { let direction = 2; }   // down arrow
+            if ((key = 130) & ~(direction = 4)) { let direction = 3; }   // left arrow
+            if ((key = 132) & ~(direction = 3)) { let direction = 4; }   // right arrow
+
+            while (~(key = 0)) {
+                do checkNextMove();
+
+                if (dead) {
+                    return snake.length();
+                }
+                else {
+                    let key = Keyboard.keyPressed();
+                    do moveSnake();
+                }
+            }
+        }
+        return snake.length();
+    }
+
+
+    method void drawApples() {
+        var int i, x, y;
+        var Array ax, ay;
+        
+        let ax = basket.applesX();
+        let ay = basket.applesY();
+
+        let i = 0;
+        while (i < 3) {
+            let x = ax[i];
+            let y = ay[i];
+
+            do Screen.setColor(true);
+
+            do Screen.drawRectangle(x+10, y+0, x+11, y+1);
+            do Screen.drawRectangle(x+12, y+1, x+13, y+24);
+            do Screen.drawRectangle(x+11, y+3, x+14, y+5);
+            do Screen.drawRectangle(x+6, y+4, x+13, y+7);
+            do Screen.drawRectangle(x+5, y+5, x+6, y+8);
+            do Screen.drawRectangle(x+4, y+6, x+5, y+9);
+            do Screen.drawRectangle(x+3, y+7, x+4, y+20);
+            do Screen.drawRectangle(x+2, y+8, x+2, y+19);
+            do Screen.drawRectangle(x+0, y+13, x+24, y+17);
+            do Screen.drawRectangle(x+6, y+13, x+18, y+23);
+            do Screen.drawRectangle(x+11, y+8, x+22, y+19);
+            do Screen.drawRectangle(x+17, y+6, x+20, y+21);
+            do Screen.drawRectangle(x+10, y+0, x+11, y+1);
+
+            do Screen.drawLine(x+1, y+10, x+1, y+18);
+            do Screen.drawLine(x+0, y+12, x+5, y+12);
+            do Screen.drawLine(x+4, y+21, x+5, y+21);
+            do Screen.drawLine(x+5, y+22, x+19, y+22);
+            do Screen.drawLine(x+8, y+24, x+16, y+24);
+            do Screen.drawLine(x+8, y+12, x+24, y+12);
+            do Screen.drawLine(x+21, y+7, x+21, y+20);
+            do Screen.drawLine(x+23, y+10, x+23, y+18);
+            do Screen.drawLine(x+19, y+5, x+21, y+5);
+            do Screen.drawLine(x+21, y+4, x+22, y+4);
+            do Screen.drawLine(x+22, y+3, x+23, y+3);
+            do Screen.drawLine(x+17, y+2, x+18, y+2);
+            do Screen.drawLine(x+19, y+1, x+20, y+1);
+            do Screen.drawLine(x+21, y+0, x+22, y+0);
+            do Screen.drawLine(x+9, y+11, x+10, y+11);
+            do Screen.drawLine(x+5, y+18, x+5, y+20);
+
+            do Screen.drawPixel(x+10, y+8);
+            do Screen.drawPixel(x+10, y+10);
+            do Screen.drawPixel(x+16, y+7);
+            do Screen.drawPixel(x+15, y+4);
+            do Screen.drawPixel(x+16, y+3);
+            do Screen.drawPixel(x+23, y+1);
+            do Screen.drawPixel(x+24, y+2);
+            
+            let i = i + 1;
+        }
+        return;
+    }
+}

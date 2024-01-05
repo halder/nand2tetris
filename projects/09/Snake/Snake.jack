@@ -1,0 +1,169 @@
+class Snake {
+    static int SIZE, OFFSET;    // body part size
+    field Array bx, by;         // arrays of body X and Y coordinates
+    field int len, direction;
+    
+
+    constructor Snake new() {
+        let SIZE = 25;
+        let OFFSET = SIZE - 1;
+
+        let bx = Array.new(180);
+        let by = Array.new(180);
+        
+        let bx[0] = 6;
+        let by[0] = 3 + SIZE;
+        
+        let len = 1;
+
+        // draw head
+        do drawSnake(bx[0], by[0], false);
+
+        return this;
+    }
+
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+
+    method Array bodyX() { return bx; }
+    method Array bodyY() { return by; }
+    method int headX() { return bx[0]; }
+    method int headY() { return by[0]; }
+    method int length() { return len; }
+
+
+    method void moveDir(int dir) {
+        let direction = dir;
+
+        if (direction = 1) { do move(1, false); }   // up
+        if (direction = 2) { do move(1, true); }    // down
+        if (direction = 3) { do move(0, false); }   // left
+        if (direction = 4) { do move(0, true); }    // right
+
+        return;
+    }
+
+
+    method void move(int axis, boolean op) {
+        do clearOrDraw(true);
+        do updatePosition(axis, op);
+        do clearOrDraw(false);
+        return;
+    }
+
+
+    method void clearOrDraw(boolean clear) {
+        var int i;
+
+        if (clear) {
+            do Screen.setColor(false);
+
+            let i = 0;
+            while (i < len) {
+                do Screen.drawRectangle(bx[i], by[i], bx[i]+OFFSET, by[i]+OFFSET);
+                let i = i + 1;
+            }
+        }
+        else {
+            // draw head
+            do drawSnake(bx[0], by[0], false);
+
+            // draw body
+            let i = 1;
+            while (i < len) {
+                do drawSnake(bx[i], by[i], true);
+                let i = i + 1;
+            }
+        }
+        return;
+    }
+    
+
+    method void drawSnake(int x, int y, boolean body) {
+        do Screen.setColor(true);
+        do Screen.drawCircle(x+12, y+12, 12);
+
+        if (body) {
+            do Screen.setColor(false);
+            do Screen.drawCircle(x+12, y+12, 5);
+        }
+        else {
+            do Screen.setColor(false);
+            do drawEyes(x, y);
+
+        }
+
+        return;
+    }
+
+
+    method void drawEyes(int x, int y) {
+        if (direction = 1) {
+            do Screen.drawCircle(x+7, y+7, 3);
+            do Screen.drawCircle(x+17, y+7, 3);
+        }
+        if (direction = 2) {
+            do Screen.drawCircle(x+7, y+17, 3);
+            do Screen.drawCircle(x+17, y+17, 3);
+        }
+        if (direction = 3) {
+            do Screen.drawCircle(x+7, y+17, 3);
+            do Screen.drawCircle(x+7, y+7, 3);
+        }
+        if (direction = 4) {
+            do Screen.drawCircle(x+17, y+7, 3);
+            do Screen.drawCircle(x+17, y+17, 3);
+        }
+        return;
+    }
+
+
+    method void updatePosition(int axis, boolean op) {
+        var int hx, hy, i;
+
+        let hx = bx[0];
+        let hy = by[0];
+
+        // update head:
+        // move up
+        if ((axis = 1) & (~op)) {
+            let hy = hy - SIZE;
+        }
+        // move down
+        if ((axis = 1) & (op)) {
+            let hy = hy + SIZE;
+        }
+        // move left
+        if ((axis = 0) & (~op)) {
+            let hx = hx - SIZE;
+        }
+        // move right
+        if ((axis = 0) & (op)) {
+            let hx = hx + SIZE;
+        }
+        
+        // update body:
+        let i = len - 1;
+        while (i > 0) {
+            let bx[i] = bx[i-1];
+            let by[i] = by[i-1];
+
+            let i = i - 1;
+        }
+        
+        let bx[0] = hx;
+        let by[0] = hy;
+
+        return;
+    }
+
+
+    method void grow() {
+        let len = len + 1;
+        return;
+    }
+}

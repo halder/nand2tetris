@@ -12,10 +12,11 @@ projects/07/**/*.asm
 !projects/07/vm_command_logic.asm
 projects/08/**/*.asm
 !projects/08/vm_asm_logic.asm
-projects/09/
+projects/09/**/
+!projects/09/Snake
 projects/1*/
 notes/template.md
 __pycache__
-src/
+toolchain/
 .idea
 dec2bin2hex.txt
