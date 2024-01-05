@@ -1,7 +1,15 @@
-/*
-TODO:
-    - Smoothness (if possible): Slow speed but good button response?
-    - Difficulty
+// File name: projects/09/Snake/Game.jack
+
+/** One instance of a game of "snake".
+    Returns the instance/round's achieved score.
+
+    TODO:
+        - Smoothness (if possible):
+            - currently done via `Sys.halt` call between snake movements (implemented in moveSnake)
+            - currently set to 70 milliseconds; seems to be the sweet spot in the current game implementation
+            - currently NOT possible to move to a "line" adjacent to the snake's current path (successive up/down left/right movement)
+            - problem: decreasing halting time too far makes the game way too fast
+            -> sweet spot / Hack limitations?
 */
 
 class Game {
@@ -10,10 +18,8 @@ class Game {
     field int direction;
     field boolean dead;
 
-
     constructor Game new() {
         let direction = 0;
-
         let snake = Snake.new();
         let dead = false;
         let basket = Basket.new();
@@ -21,10 +27,12 @@ class Game {
         return this;
     }
 
+
     method void dispose() {
         do snake.dispose();
         do basket.dispose();
         do Memory.deAlloc(this);
+
         return;
     }
 
@@ -32,6 +40,7 @@ class Game {
     method void initiate() {
         do basket.initiate(snake.bodyX(), snake.bodyY(), snake.length());
         do drawApples();
+
         return;
     }
 
@@ -40,19 +49,21 @@ class Game {
         var int eat, i, hx, hy;
         var Array ax, ay;
 
-        let ax = basket.applesX(); // array
+        let ax = basket.applesX();  // apple coordinates
         let ay = basket.applesY();
-
-        let hx = snake.headX(); // int
+        let hx = snake.headX();     // snake head coordinates
         let hy = snake.headY();
 
         let eat = -1;
         
+        // check if snake head matches apple position
         let i = 0;
-        while (i < 3) {  // loop through apples; check vs. head position
+        while (i < 3) {
+
             if ((ax[i] = hx) & (ay[i] = hy)) {
                 let eat = i;
             }
+
             let i = i + 1;
         }
 
@@ -88,44 +99,50 @@ class Game {
 
 
     method void checkNextMove() {
-        // check if next move is valid or will lead to death
+        /** collision detection. check if next move is valid or will lead to death. */
         var int i, hx, hy, bx, by;
 
         let hx = snake.headX();
         let hy = snake.headY();
-
         let bx = snake.bodyX();
         let by = snake.bodyY();
 
+        // future head position
         if (direction = 1) { let hy = hy - 25; }
         if (direction = 2) { let hy = hy + 25; }
         if (direction = 3) { let hx = hx - 25; }
         if (direction = 4) { let hx = hx + 25; }
 
+        // check head vs. game border
         if ((hy < (3 + 25)) | (hy > 252) | (hx < 6) | (hx > 505)) {
             let dead = true;
         }
 
+        // check head vs. snake body parts
         let i = 1;
         while (i < snake.length()) {
+
             if ((hx = bx[i]) & (hy = by[i])) {
                 let dead = true;
             }
+
             let i = i + 1;
         }
+
         return;
     }
 
 
     method int run() {
+        /** runs one instance of a game. returns score. */
         var char key;
         var boolean choice;
 
         do initiate();
-        let direction = 4;
+        let direction = 4;  // move right at beginning of a game
 
         while (~dead) {
-            while (key = 0) {
+            while (key = 0) {   // no key being pressed
                 do checkNextMove();
 
                 if (dead) {
@@ -137,12 +154,12 @@ class Game {
                 }
             }
 
-            if ((key = 131) & ~(direction = 2)) { let direction = 1; }   // up arrow
-            if ((key = 133) & ~(direction = 1)) { let direction = 2; }   // down arrow
-            if ((key = 130) & ~(direction = 4)) { let direction = 3; }   // left arrow
-            if ((key = 132) & ~(direction = 3)) { let direction = 4; }   // right arrow
+            if (((key = 131) | (key = 87)) & ~(direction = 2)) { let direction = 1; }   // W, up arrow
+            if (((key = 133) | (key = 83)) & ~(direction = 1)) { let direction = 2; }   // S, down arrow
+            if (((key = 130) | (key = 65)) & ~(direction = 4)) { let direction = 3; }   // A, left arrow
+            if (((key = 132) | (key = 68)) & ~(direction = 3)) { let direction = 4; }   // D, right arrow
 
-            while (~(key = 0)) {
+            while (~(key = 0)) {    // key being pressed
                 do checkNextMove();
 
                 if (dead) {
@@ -154,11 +171,13 @@ class Game {
                 }
             }
         }
+
         return snake.length();
     }
 
 
     method void drawApples() {
+        /** draws apple sprite. */
         var int i, x, y;
         var Array ax, ay;
         
@@ -213,6 +232,7 @@ class Game {
             
             let i = i + 1;
         }
+
         return;
     }
 }

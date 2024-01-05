@@ -1,22 +1,29 @@
+// File name: projects/09/Snake/Snake.jack
+
+/** User-controlled main game object.
+    Handles all movement-related update and growth functionality.
+*/
+
 class Snake {
-    static int SIZE, OFFSET;    // body part size
+    static int SIZE, OFFSET;    // body part size & offset
     field Array bx, by;         // arrays of body X and Y coordinates
     field int len, direction;
     
-
     constructor Snake new() {
         let SIZE = 25;
         let OFFSET = SIZE - 1;
 
+        // max possible length
         let bx = Array.new(180);
         let by = Array.new(180);
-        
+
+        // initial head position
         let bx[0] = 6;
         let by[0] = 3 + SIZE;
         
         let len = 1;
 
-        // draw head
+        // draw initial head
         do drawSnake(bx[0], by[0], false);
 
         return this;
@@ -24,11 +31,14 @@ class Snake {
 
 
     method void dispose() {
+        do bx.dispose();
+        do by.dispose();
         do Memory.deAlloc(this);
+
         return;
     }
 
-
+    // getters
     method Array bodyX() { return bx; }
     method Array bodyY() { return by; }
     method int headX() { return bx[0]; }
@@ -52,11 +62,13 @@ class Snake {
         do clearOrDraw(true);
         do updatePosition(axis, op);
         do clearOrDraw(false);
+
         return;
     }
 
 
     method void clearOrDraw(boolean clear) {
+        /** either clears snake of time t-1 or draws snake of time t. */
         var int i;
 
         if (clear) {
@@ -65,6 +77,7 @@ class Snake {
             let i = 0;
             while (i < len) {
                 do Screen.drawRectangle(bx[i], by[i], bx[i]+OFFSET, by[i]+OFFSET);
+
                 let i = i + 1;
             }
         }
@@ -76,14 +89,18 @@ class Snake {
             let i = 1;
             while (i < len) {
                 do drawSnake(bx[i], by[i], true);
+
                 let i = i + 1;
             }
         }
+
         return;
     }
     
 
     method void drawSnake(int x, int y, boolean body) {
+        /** draws snake head & body parts. */
+        // base element
         do Screen.setColor(true);
         do Screen.drawCircle(x+12, y+12, 12);
 
@@ -91,10 +108,9 @@ class Snake {
             do Screen.setColor(false);
             do Screen.drawCircle(x+12, y+12, 5);
         }
-        else {
+        else {  // head
             do Screen.setColor(false);
             do drawEyes(x, y);
-
         }
 
         return;
@@ -118,11 +134,13 @@ class Snake {
             do Screen.drawCircle(x+17, y+7, 3);
             do Screen.drawCircle(x+17, y+17, 3);
         }
+
         return;
     }
 
 
     method void updatePosition(int axis, boolean op) {
+        /** updates snake's position based on movement direction */
         var int hx, hy, i;
 
         let hx = bx[0];
@@ -149,6 +167,7 @@ class Snake {
         // update body:
         let i = len - 1;
         while (i > 0) {
+
             let bx[i] = bx[i-1];
             let by[i] = by[i-1];
 
@@ -164,6 +183,7 @@ class Snake {
 
     method void grow() {
         let len = len + 1;
+
         return;
     }
 }

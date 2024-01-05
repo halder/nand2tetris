@@ -1,3 +1,7 @@
+// File name: projects/09/Snake/Board.jack
+
+/** API description */
+
 class Board {
     static String SCORE, DEAD, RETRY, QUIT, ENTER, HIGH;
     static int HIGHSCORE;
@@ -14,6 +18,7 @@ class Board {
 
         do resetBoard();
         let game = Game.new();
+
         return this;
     }
 
@@ -25,9 +30,10 @@ class Board {
         do QUIT.dispose();
         do ENTER.dispose();
         do HIGH.dispose();
-
+        
         do game.dispose();
         do Memory.deAlloc(this);
+
         return;
     }
 
@@ -41,16 +47,16 @@ class Board {
             let HIGHSCORE = gameScore;
             do Board.printScore(HIGHSCORE, true);
         }
+
         return;
     }
 
 
     method void resetGame() {
         do game.dispose();
-
         do resetBoard();
-
         let game = Game.new();
+
         return;
     }
 
@@ -94,26 +100,29 @@ class Board {
 
 
     method boolean continue() {
+        /** "game over screen"; asks for user input ot either retry or quit the app.
+            default: retry.
+        */
         var char key;
         var boolean choice;
 
         do printOptions();
-        // default: retry
         do select(true);
         let choice = true;
 
         while (~(key = 128)) {
             let key = Keyboard.keyPressed();
 
-            if (key = 130) {    // left arrow
+            if ((key = 130) | (key = 65)) {    // A, left arrow; select retry
                 do select(true);
                 let choice = true;
             }
-            if (key = 132) {    // right arrow
+            if ((key = 132) | (key = 68)) {    // D, right arrow; select quit
                 do select(false);
                 let choice = false;
             }
         }
+
         return choice;
     }
 
@@ -133,6 +142,7 @@ class Board {
 
         do Output.moveCursor(17, 27);
         do Output.printString(ENTER);
+
         return;
     }
 
@@ -152,6 +162,7 @@ class Board {
             do Screen.setColor(true);
             do Screen.drawLine(262, 167, 294, 167);
         }
+
         return;
     }
 }

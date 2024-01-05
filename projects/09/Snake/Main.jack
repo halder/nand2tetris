@@ -1,9 +1,9 @@
 // File name: projects/09/Main.jack
 
-/** API description */
+/** Snake gameplay loop. */
 
 class Main {
-    static String SNAKE, START;
+    static String SNAKE, START, INSTR;
 
     function void main() {
         var Board board;
@@ -13,26 +13,29 @@ class Main {
 
         let SNAKE = "Snake THE game!";
         let START = "Press ENTER to start game.";
+        let INSTR = "Move using W/A/S/D or ARROW keys.";
 
         do Output.moveCursor(8, 24);
         do Output.printString(SNAKE);
-
         do Output.moveCursor(13, 19);
         do Output.printString(START);
+        do Output.moveCursor(15, 16);
+        do Output.printString(INSTR);
 
         while (~(key = 128)) {
             let key = Keyboard.keyPressed();
             let seed = seed + 1;
         }
 
-        do LCGRandom.setSeed(seed);
-
         do SNAKE.dispose();
         do START.dispose();
+        do INSTR.dispose();
 
+        do LCGRandom.setSeed(seed);
         let board = Board.new();
         let play = true;
 
+        // gameplay loop
         while (play) {
             do board.playOneGame();
             let play = board.continue();

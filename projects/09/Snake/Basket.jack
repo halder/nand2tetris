@@ -1,22 +1,24 @@
-// File name: projects/09/Basket.jack
+// File name: projects/09/Snake/Basket.jack
 
-/** Basket holds and takes care of all apple-related functionality.
-    Apples function as the snake's food and are required to score points in the game.
+/** Basket takes care of all apple-related functionality.
+    Apples function as the snake's food and are collected to score points in the game.
+    A maximum of 3 apples is always visible on the playing board.
 
-    TODO: Fix some generated apples spawning inside the snake's body. Could be either of:
-        - generated apple is equivalent to an existing apple -> checkValidity does not work as intended
-        - generated apple is equivalent to an existing snake bodypart -> checkValidity does not work as intended
-        - generated apple is equivalent to the eaten apple -> not sure
+    TODO:
+        Some of the generated apples spawn inside the snake's body.
+        
+        Could be either of:
+        - generated apple is equivalent to an existing apple            -> checkValidity does not work as intended
+        - generated apple is equivalent to an existing snake bodypart   -> checkValidity does not work as intended
+        - generated apple is equivalent to the eaten apple              -> not sure
 */
 
 class Basket {
-    field int slot;     // index pointing to currently relevant basket slot
-    field Array ax, ay; // arrays of apple X and Y coordinates
-
+    field int slot;         // index pointing to currently relevant basket slot
+    field Array ax, ay;     // arrays of apple X and Y coordinates
 
     constructor Basket new() {
         let slot = 0;
-
         let ax = Array.new(3);
         let ay = Array.new(3);
 
@@ -25,11 +27,14 @@ class Basket {
 
 
     method void dispose() {
+        do ax.dispose();
+        do ay.dispose();
         do Memory.deAlloc(this);
+
         return;
     }
 
-
+    // getters
     method Array applesX() { return ax; }
     method Array applesY() { return ay; }
 
@@ -48,6 +53,7 @@ class Basket {
 
     method void remove(int index) {
         let slot = index;
+
         return;
     }
 
@@ -56,7 +62,6 @@ class Basket {
         var Array apple;
 
         let apple = generateApple(bx, by, len);
-
         let ax[slot] = apple[0];
         let ay[slot] = apple[1];
 
@@ -65,6 +70,7 @@ class Basket {
 
 
     method Array generateApple(Array bx, Array by, int len) {
+        /** generate an apple in a random empty (no apple or snake) position. */
         var int x, y;
         var Array apple;
         var boolean valid;
@@ -73,12 +79,13 @@ class Basket {
         let apple = Array.new(2);
 
         let x = 6 + (25 * LCGRandom.randRange(1, 19));
-        let y = (3 + 25) + (25 * LCGRandom.randRange(1, 8)); // 3 + SIZE
+        let y = (3 + 25) + (25 * LCGRandom.randRange(1, 8)); // 3 + SIZE (see Snake.jack)
 
         let apple[0] = x;
         let apple[1] = y;
 
-        let valid = checkValidity(x, y, bx, by, len);   // check vs snake parts
+        // check generated position vs snake parts & existing apples
+        let valid = checkValidity(x, y, bx, by, len);
 
         if (~valid) {
             do generateApple(bx, by, len);
@@ -89,21 +96,31 @@ class Basket {
 
 
     method boolean checkValidity(int x, int y, Array arrX, Array arrY, int len) {
+        /** check whether an apple or snake part already exists in position (x, y). */
         var int i;
         var boolean valid;
 
         let valid = true;
 
+        // check vs. snake parts
         let i = 0;
         while (i < len) {
-            if ((arrX[i] = x) & (arrY[i] = y)) { let valid = false; }
+
+            if ((arrX[i] = x) & (arrY[i] = y)) {
+                let valid = false;
+            }
+
             let i = i + 1;
         }
 
-        // check apple position vs. other apples
+        // check vs. existing apples
         let i = 0;
         while (i < 3) {
-            if ((ax[i] = x) & (ay[i] = y)) { let valid = false; }
+
+            if ((ax[i] = x) & (ay[i] = y)) {
+                let valid = false;
+            }
+
             let i = i + 1;
         }
 
