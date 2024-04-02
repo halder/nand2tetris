@@ -2,6 +2,7 @@
 *.pdf
 *.hack
 tools/
+!documents/*.pdf
 projects/**/*.out
 projects/**/*.cmp
 projects/**/*.tst
@@ -14,7 +15,11 @@ projects/08/**/*.asm
 !projects/08/vm_asm_logic.asm
 projects/09/**/
 !projects/09/Snake
-projects/1*/
+projects/10/**/*.jack
+projects/10/**/*.xml
+projects/11/
+projects/12/
+projects/13/
 notes/template.md
 __pycache__
 toolchain/
