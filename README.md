@@ -35,18 +35,19 @@ Building upon these basic gates we build the ALU, Memory and eventually the full
 Similarly to the 16-bit computer, 32-bit (64-bit respectively) computers require 32-bit (64-bit) variants of logic gates.
 
 ### Summary
-|Notes / Programs|Lecture Slides|Related Project|
-|---|---|---|
-|[**Boolean Logic**](notes/bool.md)|[*Boolean Logic*](https://drive.google.com/file/d/1MY1buFHo_Wx5DPrKhCNSA2cm5ltwFJzM/view)|1|
-|[**Boolean Functions and Gate Logic**](notes/gates.md)|[*Boolean Logic*](https://drive.google.com/file/d/1MY1buFHo_Wx5DPrKhCNSA2cm5ltwFJzM/view)|1|
-|[**Boolean Arithmetic and the ALU**](notes/alu.md)|[*Boolean Arithmetic*](https://drive.google.com/file/d/1ie9s3GjM2TrvL7PrEZJ00gEwezgNLOBm/view)|2|
-|[**Sequential Logic and Memory**](notes/memory.md)|[*Sequential Logic*](https://drive.google.com/file/d/1boFooygPrxMX-AxzogFYIZ-8QsZiDz96/view)|3|
-|[**Machine Language**](notes/machine_lang.md/)|[*Machine Language*](https://drive.google.com/file/d/1HxjPmIZkFHl-BVW3qoz8eD9dqEuEyuBI/view)|4|
-|[**Architecture**](notes/architecture.md)|[*Computer Architecture*](https://drive.google.com/file/d/1nEptWuRpFF9zmqlKYq6s1UfDB_dd16vx/view)|5|
-|[**Assembler**](notes/assembler.md)|[*Assembler*](https://drive.google.com/file/d/1uKGRMnL-gqk9DsgeN50z0EpHoSMWe6F5/view)|6|
-|[**Virtual Machine: Architecture**](notes/vm_architecture.md)|[*VM I: Stack Arithmetic*](https://drive.google.com/file/d/1BPmhMLu_4QTcte0I5bK4QBHI8SACnQSt/view)|7|
-|[**Virtual Machine: Flow**](notes/vm_flow.md)|[*VM II: Program Control*](https://drive.google.com/file/d/1BexrNmdqYhKPkqD_Y81qNAUeyfzl-ZtO/view)|8|
-|[**Compiler: Syntax Analysis**](notes/compiler_parser.md)|[*Compiler I: Parsing*](https://drive.google.com/file/d/1CM_w6cxQpYnYHcP-OhNkNU6oD5rMnjzv/view)|10|
+|Notes / Programs|Project|
+|---|---|
+|[**Boolean Logic**](notes/bool.md)|1|
+|[**Boolean Functions and Gate Logic**](notes/gates.md)|1|
+|[**Boolean Arithmetic and the ALU**](notes/alu.md)|2|
+|[**Sequential Logic and Memory**](notes/memory.md)|3|
+|[**Machine Language**](notes/machine_lang.md/)|4|
+|[**Architecture**](notes/architecture.md)|5|
+|[**Assembler**](notes/assembler.md)|6|
+|[**Virtual Machine: Architecture**](notes/vm_architecture.md)|7|
+|[**Virtual Machine: Flow**](notes/vm_flow.md)|8|
+|[**Compiler: Syntax Analysis**](notes/compiler_parser.md)|10|
+<!-- |[**Compiler: Code Generation**](notes/compiler_code_gen.md)|11| -->
 
 ## B. Beyond Simulation
 When it comes to building the Hack computer from real hardware, there are two options:
