@@ -38,8 +38,8 @@ A parser may output a *parse tree* which describes the input's grammatical struc
 
 Parse trees can be displayed using *XML* files. Logically, parsers work in a *recursive* fashion, e.g. `compileWhileStatement` might have to call `compileExpression` might have to call `compileTerm` etc.
 
-
-### Jack Compiler I
+---
+### Project: Jack Compiler I
 Compiler (first stage) written in python 3.10 according to [project 10](../projects/10/) contract specifications, visualized in [Jack grammar flow chart](../documents/jack_grammar.pdf).
 
 **Syntax Analyzer**

@@ -31,7 +31,8 @@ E.g. iterating over an array; the *pointer* holds the memory address of the **cu
     * width (e.g. native 64-bit addition vs. 8 * 8-bit addition)
     * floating point, ...
 
-### Hack Programs
+---
+### Project: Hack Programs
 [Project 4](../projects/04/), lecture examples & custom programs in order to get a better understanding of assembly programming in the Hack language.
 
 **Project**

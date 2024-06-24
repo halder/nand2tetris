@@ -8,7 +8,8 @@ Boolean algebra, functions & logic gates.
 * [NAND logic explained](https://www.electronics-tutorials.ws/boolean/bool_4.html)
 * [NAND from transistors](https://mathcenter.oxford.emory.edu/site/cs170/nandFromTransistors/)
 
-### Logic Gate Chip Implementations
+---
+### Project: Logic Gate Chip Implementations
 As implemented using HDL in [project 1](../projects/01/).
 
 * [Not](../diagrams/not.png)

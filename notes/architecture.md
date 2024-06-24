@@ -45,8 +45,9 @@ A hierarchy of chip parts:
     * ROM unit
         * Registers
         * *ELG*
-
-### The Hack Computer
+        
+---
+### Project: The Hack Computer
 Hack computer architecture & parts as implemented in [Project 5](../projects/05/).
 
 * [Memory](../diagrams/memory.png)

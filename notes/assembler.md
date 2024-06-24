@@ -36,7 +36,8 @@ Using the agreed-upon rules, the assembler performs the following tasks:
 
 The assembler must take care of all symbol handling including correct memory allocation. For example, a *single* line assembly instructions may produce binary machine code that is **three words** long; the assembler must be able to account for such a case and handle it accordingly and correctly.
 
-### Python Implementation
+---
+### Project: Python Implementation
 Hack assembler written in python 3.10 according to [project 6](../projects/06/) contract specifications.
 
 **Assembler files**

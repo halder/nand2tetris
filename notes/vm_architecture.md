@@ -130,7 +130,8 @@ All assumptions about memory segments, except the `static` implementation, are *
     - pointer 0 = `THIS`
     - pointer 1 = `THAT`
 
-### VM-to-Hack Translator I
+---
+### Project: VM-to-Hack Translator I
 VM translator (first stage) written in python 3.10 according to [project 7](../projects/07/) contract specifications.
 
 Implements VM arithmetic & push / pop operations; VM-to-ASM-logic can be found in [vm_command_logic.asm](../projects/07/vm_command_logic.asm).

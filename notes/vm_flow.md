@@ -46,7 +46,8 @@ Within the *calling chain*, only the **currently running** function can return a
         - hand over **return value** to caller (vm; **copy into `argument 0` on caller's stack**)
         - free memory
 
-### VM-to-Hack Translator II
+---
+### Project: VM-to-Hack Translator II
 VM translator (second stage) written in python 3.10 according to [project 8](../projects/08/) contract specifications.
 
 Implements VM program flow & function behavior; VM-to-ASM-logic can be found in [vm_asm_logic.asm](../projects/08/vm_asm_logic.asm).

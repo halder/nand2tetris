@@ -54,7 +54,8 @@ Each Register in the RAM structure holds exactly one 16-bit (in *this* implement
 >>> (each stores *1* bit of information)
 >>>> Mux + D Flip Flop
 
-### Circuits
+---
+### Project: Circuits
 As implemented using HDL in [project 3](../projects/03/).
 
 * [Bit](../diagrams/bit.png)
