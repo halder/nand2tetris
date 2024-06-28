@@ -23,7 +23,7 @@ In order to write a VM translator, one must be familiar with:
     * [Pointer Manipulation](#pointer-manipulation)
     * [Stack Implementation](#stack-implementation)
     * [Memory Implementation](#memory-implementation)
-* [Project 7: VM translator I](#vm-to-hack-translator-i)
+* [Project 7: VM translator I](#project-vm-to-hack-translator-i)
 
 ### VM Abstraction
 High level programming languages are an *abstraction*, they do not exist for real. As such, they can be implemented using a VM, particularly a *stack* machine. However, the stack machine is *also an abstraction* itself, which in turn can be implemented by something (not known yet) even more low level.
