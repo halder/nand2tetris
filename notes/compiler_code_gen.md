@@ -82,7 +82,7 @@ Most importantly, all *label* generations (e.g. `goto LABEL`) by the compiler ha
 
 Local and argument variables are only used/needed by the *currently executing function* or a function higher up in the calling chain waiting for the current function to exectue. Considering the temporary nature of these variables, they are stored in the **stack** section of the target RAM.
 
-Object and array data, on the other hand, are manipulated by currently executing *program*, not just a single function. They have to be accessed at various times throughout the program execution, potentially by different functions. There might also be potentially millions of different objects during a program's execution time. Objects and arrays are stored in **heap** section of the target RAM.
+Object and array data, on the other hand, are manipulated by the currently executing *program*, not just a single function. They have to be accessed at various times throughout the program execution, potentially by different functions. There might also be potentially millions of different objects during a program's execution time. Objects and arrays are stored in **heap** section of the target RAM.
 
 Before accessing objects and arrays using `this` (object) or `that` (array), we need to set the `pointer` word to point to either `this` or `that`.
 
@@ -103,12 +103,13 @@ Constructor *must* `return this`, therefore return the base address of the selec
 ---
 ### Project: Jack Compiler II
 
-Compiler (second stage) written in python 3.10 according to [project 11](../projects/11/) contract specifications.
+Compiler (second stage) written in python 3.10 according to [project 11](../projects/11/) contract specifications. Compiles from `Jack` to `VM code`.
 
 **Full-scale Compiler**
-* [compiler](../projects/11/compiler.py) (main)
-    * usage `python3 compiler.py (DIR_NAME | FILE_NAME.jack)`
+* [code generator](../projects/11/code_generator.py) (main)
+    * usage `python3 code_generator.py (DIR_NAME | FILE_NAME.jack)`
 * [parser](../projects/11/compilation_engine.py)
-* [vm_writer](../projects/11/vm_writer.py)
-* [symbol_table](../projects/11/symbol_table.py)
+* [vm writer](../projects/11/vm_writer.py)
+* [symbol table](../projects/11/symbol_table.py)
+* [utilities](../projects/11/util.py)
 * [tokenizer](../projects/10/tokenizer.py) (unchanged from project 10)

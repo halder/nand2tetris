@@ -1,8 +1,11 @@
-#TODO: Adjust to Ch.11
-
 """
 Optimizations:
     * tokenizer does NOT handle nested comments & "comments" within string constants
+    * compilation functions are very long, this can be (but probably never will be) optimized
+    * current error handling extremely verbose
+    * lots of branching which could be reduced significantly
+    * current implementation is duck type for primitive data types, no type-checking before any operations takes place
+    * current implementation does not allow for an arbitrary number of "binary operation concatentation" without parentheses (two terms, one operand)
 """
 
 import sys
@@ -11,7 +14,7 @@ import os
 import compilation_engine
 import tokenizer
 
-TOKEN_DIR = "tokenized_jack_files"
+TOKEN_DIR = "vm_files"
 os.makedirs(TOKEN_DIR, exist_ok=True)
 
 cwd = os.getcwd()
@@ -36,18 +39,9 @@ for jack_file in jack_files:
     
     list_of_tokens = tokenizer.get_tokens(content)
 
-    with open(f"{TOKEN_DIR}/{jack_file.replace('.jack', '.xml')}", "a") as target_file:
+    with open(f"{TOKEN_DIR}/{jack_file.replace('.jack', '.vm')}", "w") as target_file:
+        print(f"compiling `{jack_file}` to VM code ...")
         parser = compilation_engine.Parser(list_of_tokens, target_file)
-
         parser.compile()
 
-        # Note: Subsequent code is used for pre-compilation engine steps to validate tokenizer.        
-        #target_file.write("<tokens>\n")
-        
-        #for token in list_of_tokens:
-            #token_type, token_value = token["type"], token["value"]
-            #target_file.write(f"\t<{token_type}> {token_value} </{token_type}>\n")
-        #target_file.write("</tokens>")
-    
-    print(f"done w/ file: {jack_file}")
-print("done.")
+print("All files compiled to VM code.")
