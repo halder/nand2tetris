@@ -56,19 +56,20 @@ def get_line_tokens(line: str) -> list[dict]:
                 continue
             
         # whitespace outside of string constant
-        if char in (" ", "\t") and not within_string:
-            if current_token:
-                line_tokens.append({"type": "other", "value": current_token})
-            current_token = ""
-            continue
+        if not within_string:
+            if char in (" ", "\t"):
+                if current_token:
+                    line_tokens.append({"type": "other", "value": current_token})
+                current_token = ""
+                continue
 
-        if char in SYMBOLS:
-            if current_token:
-                line_tokens.append({"type": "other", "value": current_token})
+            if char in SYMBOLS:
+                if current_token:
+                    line_tokens.append({"type": "other", "value": current_token})
 
-            line_tokens.append({"type": "symbol", "value": char})
-            current_token = ""
-            continue
+                line_tokens.append({"type": "symbol", "value": char})
+                current_token = ""
+                continue
         
         current_token = f"{current_token}{char}"
 
