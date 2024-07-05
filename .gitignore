@@ -19,8 +19,7 @@ projects/10/**/*.jack
 projects/10/**/*.xml
 projects/11/**/*.jack
 projects/11/**/*.xml
-projects/12/
-projects/13/
+projects/12/*Test
 notes/template.md
 __pycache__
 toolchain/

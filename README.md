@@ -48,6 +48,7 @@ Similarly to the 16-bit computer, 32-bit (64-bit respectively) computers require
 |[**Virtual Machine: Flow**](notes/vm_flow.md)|8|
 |[**Compiler: Syntax Analysis**](notes/compiler_parser.md)|10|
 |[**Compiler: Code Generation**](notes/compiler_code_gen.md)|11|
+|[**Operating System**](notes/os.md)|12|
 
 ## B. Beyond Simulation
 When it comes to building the Hack computer from real hardware, there are two options:
