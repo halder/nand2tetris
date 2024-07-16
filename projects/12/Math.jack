@@ -8,13 +8,36 @@
  * Note: Jack compilers implement multiplication and division using OS method calls.
  */
 class Math {
+    static Array twoToThe;
 
     /** Initializes the library. */
     function void init() {
+        let twoToThe = Array.new(16);
+
+        let twoToThe[0] = 1;
+        let twoToThe[1] = 2;
+        let twoToThe[2] = 4;
+        let twoToThe[3] = 8;
+        let twoToThe[4] = 16;
+        let twoToThe[5] = 32;
+        let twoToThe[6] = 64;
+        let twoToThe[7] = 128;
+        let twoToThe[8] = 256;
+        let twoToThe[9] = 512;
+        let twoToThe[10] = 1024;
+        let twoToThe[11] = 2048;
+        let twoToThe[12] = 4096;
+        let twoToThe[13] = 8192;
+        let twoToThe[14] = 16384;
+        let twoToThe[15] = 16384 + 16384;
+
+        return;
     }
 
     /** Returns the absolute value of x. */
     function int abs(int x) {
+        if (x < 0) { return -x; }
+        return x;
     }
 
     /** Returns the product of x and y. 
@@ -23,6 +46,19 @@ class Math {
      *  the Jack expressions x*y and multiply(x,y) return the same value.
      */
     function int multiply(int x, int y) {
+        var int i, sum;
+        
+        let sum = 0;
+        let i = 0;
+
+        while (i < 16) {
+            if ((y & twoToThe[i])) {
+                let sum = sum + x;
+            }
+            let x = x + x; // left bit shift
+            let i = i + 1;
+        }
+        return sum;
     }
 
     /** Returns the integer part of x/y.
@@ -31,17 +67,75 @@ class Math {
      *  the Jack expressions x/y and divide(x,y) return the same value.
      */
     function int divide(int x, int y) {
+        var int result;
+        var boolean neg;
+
+        if (y = 0) {
+            do Sys.error(3);
+            return 0;
+        }
+
+        let neg = false;
+        if ((x < 0) | (y < 0)) { let neg = true; }
+        
+        let result = Math.div_routine(Math.abs(x), Math.abs(y));
+
+        if (neg) { return -result; }
+        return result;
+    }
+
+    /** Integer division main routine */
+    function int div_routine(int x, int y) {
+        var int q, qy;
+
+        if ((y > x) | (y < 0)) { return 0; } // overflow of y
+        else {
+            let q = Math.div_routine(x, y + y);
+            let qy = q * y;
+
+            if ((x - (qy + qy)) < y) { return q + q; }
+            else { return (q + q) + 1; }
+        }
+    }
+
+    /** Returns the remainder of x/y. */
+    function int mod(int x, int y) {
+        return x - (y * (x / y));
     }
 
     /** Returns the integer part of the square root of x. */
     function int sqrt(int x) {
+        var int a, i, y, aa;
+
+        if (x < 0) {
+            do Sys.error(4);
+            return 0;
+        }
+
+        let y = 0;
+        let i = 7;
+
+        while (i > -1) {
+            let a = y + twoToThe[i];
+            let aa = a * a;
+
+            if ((~(aa > x)) & (aa > 0)) {
+                let y = a;
+            }
+            let i = i - 1;
+        }
+        return y;
     }
 
     /** Returns the greater number. */
     function int max(int a, int b) {
+        if (a > b) { return a; }
+        return b;
     }
 
     /** Returns the smaller number. */
     function int min(int a, int b) {
+        if (a < b) { return a; }
+        return b;
     }
 }
