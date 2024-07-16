@@ -58,8 +58,7 @@ class Screen {
         
         if (color) {
             let value = value | twoToThe[bit];
-        }
-        else {
+        } else {
             let value = value & ~twoToThe[bit];
         }
         return value;
@@ -127,8 +126,7 @@ class Screen {
 
         if (rightBit = 16) {
             do Memory.poke(address, value);
-        }
-        else {
+        } else {
             let value = Memory.peek(address);
 
             while (rightBit > -1) {
@@ -185,8 +183,7 @@ class Screen {
             if (diff > 0) {
                 let y = y + yi;
                 let diff = diff + (2 * (dy - dx));
-            }
-            else {
+            } else {
                 let diff = diff + (2 * dy);
             }
             
@@ -217,8 +214,7 @@ class Screen {
             if (diff > 0) {
                 let x = x + xi;
                 let diff = diff + (2 * (dx - dy));
-            }
-            else {
+            } else {
                 let diff = diff + (2 * dx);
             }
 
@@ -241,14 +237,20 @@ class Screen {
         }
 
         if ((dy = 0) & (~(dx = 0))) {
-            if (x1 < x2) { do Screen.drawHorizontal(x1, x2, y1); }
-            else { do Screen.drawHorizontal(x2, x1, y1); }
+            if (x1 < x2) {
+                do Screen.drawHorizontal(x1, x2, y1);
+            } else {
+                do Screen.drawHorizontal(x2, x1, y1);
+            }
             return;
         }
 
         if ((dx = 0) & (~(dy = 0))) {
-            if (y1 < y2) { do Screen.drawVertical(x1, y1, y2); }
-            else { do Screen.drawVertical(x1, y2, y1); }
+            if (y1 < y2) {
+                do Screen.drawVertical(x1, y1, y2);
+            } else {
+                do Screen.drawVertical(x1, y2, y1);
+            }
             return;
         }
 
@@ -260,16 +262,13 @@ class Screen {
         if (absY < absX) {
             if (x1 > x2) {
                 do Screen.drawLineLow(x2, y2, x1, y1);
-            }
-            else {
+            } else {
                 do Screen.drawLineLow(x1, y1, x2, y2);
             }
-        }
-        else {
+        } else {
             if (y1 > y2) {
                 do Screen.drawLineHigh(x2, y2, x1, y1);
-            }
-            else {
+            } else {
                 do Screen.drawLineHigh(x1, y1, x2, y2);
             }
         }

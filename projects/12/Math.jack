@@ -93,8 +93,11 @@ class Math {
             let q = Math.div_routine(x, y + y);
             let qy = q * y;
 
-            if ((x - (qy + qy)) < y) { return q + q; }
-            else { return (q + q) + 1; }
+            if ((x - (qy + qy)) < y) {
+                return q + q;
+            } else {
+                return (q + q) + 1;
+            }
         }
     }
 
