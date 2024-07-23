@@ -12,7 +12,7 @@ class Math {
 
     /** Initializes the library. */
     function void init() {
-        let twoToThe = Array.new(16);
+        let twoToThe = Array.new(17);
 
         let twoToThe[0] = 1;
         let twoToThe[1] = 2;
@@ -30,6 +30,7 @@ class Math {
         let twoToThe[13] = 8192;
         let twoToThe[14] = 16384;
         let twoToThe[15] = 16384 + 16384;
+        let twoToThe[16] = 0;
 
         return;
     }
@@ -118,7 +119,7 @@ class Math {
         let y = 0;
         let i = 7;
 
-        while (i > -1) {
+        while (~(i < 0)) {
             let a = y + twoToThe[i];
             let aa = a * a;
 
