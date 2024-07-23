@@ -75,10 +75,13 @@ class Math {
             do Sys.error(3);
             return 0;
         }
-
-        let neg = false;
-        if ((x < 0) | (y < 0)) { let neg = true; }
         
+        if (((x > 0) & (y > 0)) | ((x < 0) & (y < 0))) {
+            let neg = false;
+        } else {
+            let neg = true;
+        }
+
         let result = Math.div_routine(Math.abs(x), Math.abs(y));
 
         if (neg) { return -result; }
@@ -90,15 +93,14 @@ class Math {
         var int q, qy;
 
         if ((y > x) | (y < 0)) { return 0; } // overflow of y
-        else {
-            let q = Math.div_routine(x, y + y);
-            let qy = q * y;
 
-            if ((x - (qy + qy)) < y) {
-                return q + q;
-            } else {
-                return (q + q) + 1;
-            }
+        let q = Math.div_routine(x, y + y);
+        let qy = q * y;
+
+        if ((x - (qy + qy)) < y) {
+            return q + q;
+        } else {
+            return (q + q) + 1;
         }
     }
 
