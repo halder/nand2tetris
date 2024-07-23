@@ -59,7 +59,7 @@ class Screen {
         if (color) {
             let value = value | twoToThe[bit];
         } else {
-            let value = value & ~twoToThe[bit];
+            let value = value & (~twoToThe[bit]);
         }
         return value;
     }
@@ -129,7 +129,7 @@ class Screen {
         } else {
             let value = Memory.peek(address);
 
-            while (rightBit > -1) {
+            while (~(rightBit < 0)) {
                 let value = Screen.updateValue(value, rightBit);
                 let rightBit = rightBit - 1;
             }
