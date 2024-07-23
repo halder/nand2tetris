@@ -99,8 +99,12 @@ class Keyboard {
      */
     function int readInt(String message) {
         var String str;
+        var int value;
 
         let str = Keyboard.readLine(message);
-        return str.intValue();
+        let value = str.intValue();
+        do str.dispose();
+
+        return value;
     }
 }
