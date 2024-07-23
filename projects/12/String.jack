@@ -11,19 +11,25 @@
  * string-oriented operations.
  */
 class String {
-    field int length, emptyString;
+    field int length, max;
     field Array elements;
 
     /** constructs a new empty string with a maximum length of maxLength
      *  and initial length of 0. */
     constructor String new(int maxLength) {
-        if (maxLength > 0) {
+        if (maxLength < 0) {
+            do Sys.error(14);
+        }
+
+        if (maxLength = 0) {
+            let length = 0;
+            let max = 0;
+        } else {
             let elements = Array.new(maxLength);
             let length = 0;
-        } else {
-            let emptyString = 1;
-            let length = 0;
+            let max = maxLength;
         }
+
         return this;
     }
 
@@ -40,19 +46,29 @@ class String {
 
     /** Returns the character at the j-th location of this string. */
     method char charAt(int j) {
+        if (~(j < length)) {
+            do Sys.error(15);
+        }
+
         return elements[j];
     }
 
     /** Sets the character at the j-th location of this string to c. */
     method void setCharAt(int j, char c) {
-        let elements[j] = c;
+        if (~(j < length)) {
+            do Sys.error(16);
+        }
 
-        if (j > (length-1)) { let length = length + 1;}
+        let elements[j] = c;
         return;
     }
 
     /** Appends c to this string's end and returns this string. */
     method String appendChar(char c) {
+        if (length > max) {
+            do Sys.error(17);
+        }
+
         let elements[length] = c;
         let length = length + 1;
         return this;
@@ -60,6 +76,10 @@ class String {
 
     /** Erases the last character from this string. */
     method void eraseLastChar() {
+        if (length = 0) {
+            do Sys.error(18);
+        }
+
         let elements[length-1] = 0;
         let length = length - 1;
         return;
@@ -102,7 +122,6 @@ class String {
         }
 
         do int2StrHelper(val);
-
         return;
     }
 

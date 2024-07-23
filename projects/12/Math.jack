@@ -73,7 +73,6 @@ class Math {
 
         if (y = 0) {
             do Sys.error(3);
-            return 0;
         }
         
         if (((x > 0) & (y > 0)) | ((x < 0) & (y < 0))) {
@@ -115,7 +114,6 @@ class Math {
 
         if (x < 0) {
             do Sys.error(4);
-            return 0;
         }
 
         let y = 0;

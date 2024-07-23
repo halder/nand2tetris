@@ -184,6 +184,10 @@ class Output {
     function void moveCursor(int i, int j) {
         var int c, address;
         var boolean even;
+
+        if (((i < 0) | (i > 22)) | ((j < 0) | (j > 63))) {
+            do Sys.error(20);
+        }
         
         let address = (i * 352) + (j / 2);
         let c = 0;
