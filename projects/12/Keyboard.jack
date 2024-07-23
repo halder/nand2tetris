@@ -101,6 +101,6 @@ class Keyboard {
         var String str;
 
         let str = Keyboard.readLine(message);
-        return String.intValue(str);
+        return str.intValue();
     }
 }
