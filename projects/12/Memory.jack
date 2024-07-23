@@ -9,26 +9,133 @@
  * consists of 32,768 words, each holding a 16-bit binary number.
  */ 
 class Memory {
+    static Array ram;
+    static int free, last;
 
     /** Initializes the class. */
     function void init() {
+        // heap: 2048 to 16383 -> initial segment length: 14334
+        
+        let ram = 0;
+        let free = 2048;
+        let last = free;
+        
+        let ram[free] = 0;
+        let ram[free+1] = 14334;
+
+        return;
     }
 
     /** Returns the RAM value at the given address. */
     function int peek(int address) {
+        return ram[address];
     }
 
     /** Sets the RAM value at the given address to the given value. */
     function void poke(int address, int value) {
+        let ram[address] = value;
+        return;
+    }
+
+    /** Finds available memory segment using best fit (smallest possible segment). */
+    function int bestFit(int size) {
+        var int best, block;
+
+        let block = free;
+        let best = 0;
+
+        while (ram[block] > 0) {
+            if (ram[block+1] > (size + 1)) {
+                if (best = 0) {
+                    let best = block;
+                }
+
+                if (ram[block+1] < ram[best+1]) {
+                    let best = block;
+                }
+            }
+
+            let block = ram[block];
+        }
+
+        // last element
+        if (ram[block+1] > (size + 1)) {
+            if (best = 0) {
+                let best = block;
+            }
+
+            if (ram[block+1] < ram[best+1]) {
+                let best = block;
+            }
+        }
+
+        if (ram[best+1] < (size + 2)) {
+            do Sys.error(6);
+        }
+
+        return best;
     }
 
     /** Finds an available RAM block of the given size and returns
-     *  a reference to its base address. */
+     *  a reference to its base address.
+     *  The current implementation does not implement defragmentation of used up segments. */
     function int alloc(int size) {
+        var int best, ret, remSize, shiftedFree;
+        
+        if (size < 0) {
+            do Sys.error(5);
+        }
+
+        let best = Memory.bestFit(size);
+
+        // calculate remaining block size
+        let remSize = ram[best+1] - (size + 2);
+
+        if (best = free) {
+            /* if we allocate a portion of the free list, then the "carved out" portion is ABOVE the
+             * segment header, hence we have to move the free list DOWN. */
+
+            let ret = best + 2;
+            // new "free" start
+            let shiftedFree = (best + 2) + size;
+            let free = shiftedFree;
+
+            // best == last, update last to new address
+            if (best = last) {
+                let last = shiftedFree;
+            }
+
+            // shift "next linked list" pointer & remaining segment size accordingly
+            let ram[shiftedFree] = ram[best];
+            let ram[shiftedFree+1] = remSize;
+
+            // set used block values
+            let ram[best] = 0;
+            let ram[best+1] = size;
+
+            return ret;
+        } else {
+            /* if we allocate a portion of a previously deallocated segment, then the "carved out" portion is BELOW the
+             * segment header, hence we do NOT adjust the segment header. */
+
+            let ret = (best + (2 + remSize)) + 2;
+            
+            // update remaining block size
+            let ram[best+1] = remSize;
+            
+            // set used block value
+            let ram[ret-2] = 0;
+            let ram[ret-1] = size;
+
+            return ret;
+        }
     }
 
-    /** De-allocates the given object (cast as an array) by making
-     *  it available for future allocations. */
     function void deAlloc(Array o) {
-    }    
+        let ram[last] = o - 2;
+        let ram[o-2] = 0;
+        let last = o - 2;
+        
+        return;
+    }
 }
