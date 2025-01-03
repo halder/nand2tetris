@@ -1,6 +1,6 @@
 from asm_map import ASM
 
-def write_assembly(cmd_type, arg1, arg2, command_cnt, filename, current_function):
+def write_assembly(cmd_type, arg1, arg2, command_cnt, filename, current_function, single_file):
     """Write module main function."""
     
     if cmd_type == "C_ARITHMETIC":
@@ -27,10 +27,18 @@ def write_assembly(cmd_type, arg1, arg2, command_cnt, filename, current_function
             asm_command = f"({arg1})"
 
     elif cmd_type == "C_RETURN":
-        asm_command = "\t@__GLOB_FUNCTION_RETURN\n\t0;JMP"
+        if single_file:
+            asm_command = "\n\t".join(ASM[cmd_type]["single_file"])
+        else:
+            asm_command = "\t@__GLOB_FUNCTION_RETURN\n\t0;JMP"
 
     elif cmd_type == "C_CALL":
-        asm_command = "\n\t".join(ASM[cmd_type]).replace("%%FNAME%%", f"{arg1}").replace("%%NARG%%", f"{arg2}").replace("%%CNT%%", f"{command_cnt}")
+        if single_file:
+            single_or_multi = "single_file"
+        else:
+            single_or_multi = "multi_file"
+
+        asm_command = "\n\t".join(ASM[cmd_type][single_or_multi]).replace("%%FNAME%%", f"{arg1}").replace("%%NARG%%", f"{arg2}").replace("%%CNT%%", f"{command_cnt}")
         asm_command = asm_command.replace("\n\t(", "\n(")
         asm_command = f"\t{asm_command}"
 

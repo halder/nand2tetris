@@ -5,7 +5,7 @@ KEYWORDS = [
 ]
 SYMBOLS = "{}()[].,;+-*/&|<>=~"
 
-def get_tokens(source_file: list[str]) -> list[dict]:
+def get_tokens(source_file):
     list_of_tokens = []
     comment = False
 
@@ -36,7 +36,7 @@ def get_tokens(source_file: list[str]) -> list[dict]:
     return typed_list_of_tokens
 
 
-def get_line_tokens(line: str) -> list[dict]:
+def get_line_tokens(line):
     line_tokens = []
     current_token = ""
     within_string = False
@@ -76,7 +76,7 @@ def get_line_tokens(line: str) -> list[dict]:
     return line_tokens
 
 
-def get_token_type(list_of_tokens: list[dict]) -> list[dict]:
+def get_token_type(list_of_tokens):
     typed_tokens = []
 
     for token in list_of_tokens:
@@ -95,12 +95,3 @@ def get_token_type(list_of_tokens: list[dict]) -> list[dict]:
                 typed_tokens.append({"type": "identifier", "value": token_value})
 
     return typed_tokens
-
-
-if __name__ == "__main__":
-    with open("Square/Main.jack", "r") as file:
-        content = file.readlines()
-
-    list_of_tokens = get_tokens(content)
-
-    print(list_of_tokens)

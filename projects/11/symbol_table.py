@@ -2,16 +2,16 @@ class SymbolTable:
     # class scope: static, field
     # subroutine scope: arg, var
 
-    def __init__(self) -> None:
+    def __init__(self):
         self.i = {"static": 0, "field": 0, "argument": 0, "local": 0}
         self.scopes = {"class": {}, "subroutine": {}}
 
-    def start_subroutine(self) -> None:
+    def start_subroutine(self):
         self.scopes["subroutine"] = {}
         self.i["argument"] = 0
         self.i["local"] = 0
 
-    def define(self, name: str, type: str, kind: str) -> None: 
+    def define(self, name, type, kind): 
         if kind in ("static", "field"):
             scope = "class"
         elif kind in ("argument", "local"):
@@ -21,15 +21,15 @@ class SymbolTable:
 
         self.i[kind] += 1
 
-    def var_count(self, kind: str) -> None:
+    def var_count(self, kind):
         return self.i[kind]
 
-    def kind_of(self, scope: str, name: str) -> None:
+    def kind_of(self, scope, name):
         kind = self.scopes[scope][name]["kind"]
         return kind if kind != "field" else "this"
 
-    def type_of(self, scope: str, name: str) -> None:
+    def type_of(self, scope, name):
         return self.scopes[scope][name]["type"]
 
-    def index_of(self, scope: str, name: str) -> None:
+    def index_of(self, scope, name):
         return self.scopes[scope][name]["index"]

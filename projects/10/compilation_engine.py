@@ -6,16 +6,13 @@ Optimizations:
     * current error handling extremely verbose 
     * lots of branching which could be reduced significantly
 """
-
-from io import TextIOWrapper
-
 class ParserError(Exception):
     def __init__(self, message):
         self.message = message
 
 
 class Parser:
-    def __init__(self, tokens: list[dict], file: TextIOWrapper) -> None:
+    def __init__(self, tokens, file):
         self.tokens = tokens
         self.n = len(self.tokens)
         self.i = 0
@@ -23,10 +20,10 @@ class Parser:
         self.current_value = self.tokens[self.i]["value"]
         self.file = file
 
-    def has_more_tokens(self) -> bool:
+    def has_more_tokens(self):
         return True if (self.i + 1) < self.n else False
     
-    def advance(self) -> None:
+    def advance(self):
         self.write_terminal()
 
         if self.has_more_tokens():
@@ -34,7 +31,7 @@ class Parser:
             self.current_type = self.tokens[self.i]["type"]
             self.current_value = self.tokens[self.i]["value"]
 
-    def write_terminal(self) -> None:
+    def write_terminal(self):
         symbol_map = {"<": "&lt;", ">": "&gt;", '"': "&quot;", "&": "&amp;"}
         
         current_value = self.current_value
@@ -43,50 +40,50 @@ class Parser:
 
         self.file.write(f"<{self.current_type}> {current_value} </{self.current_type}>\n")
     
-    def write_non_terminal(self, non_terminal: str, begin: bool = False) -> None:
+    def write_non_terminal(self, non_terminal, begin=False):
         if begin:
             self.file.write(f"<{non_terminal}>\n")
         else:
             self.file.write(f"</{non_terminal}>\n")
 
-    def peek(self) -> tuple[str]:
+    def peek(self):
         if self.has_more_tokens():
             return self.tokens[self.i + 1]["type"], self.tokens[self.i + 1]["value"]
 
-    def is_literal(self, next_type, next_value, expectation) -> bool:
+    def is_literal(self, next_type, next_value, expectation):
         return next_type == "symbol" and next_value == expectation
     
-    def is_type(self, next_type, next_value) -> bool:
+    def is_type(self, next_type, next_value):
         return self.is_identifier(next_type) or (self.is_keyword(next_type) and next_value in ("int", "char", "boolean"))
     
-    def is_operation(self, next_type, next_value) -> bool:
+    def is_operation(self, next_type, next_value):
         return next_type == "symbol" and next_value in "+-*/&|<>="
     
-    def is_keyword(self, next_type) -> bool:
+    def is_keyword(self, next_type):
         return next_type == "keyword"
 
-    def is_identifier(self, next_type) -> bool:
+    def is_identifier(self, next_type):
         return next_type == "identifier"
     
-    def is_class_var_dec(self, next_type, next_value) -> bool:
+    def is_class_var_dec(self, next_type, next_value):
         return self.is_keyword(next_type) and next_value in ("static", "field")
     
-    def is_subroutine_dec(self, next_type, next_value) -> bool:
+    def is_subroutine_dec(self, next_type, next_value):
         return self.is_keyword(next_type) and next_value in ("constructor", "function", "method")
 
-    def is_var_dec(self, next_type, next_value) -> bool:
+    def is_var_dec(self, next_type, next_value):
         return self.is_keyword(next_type) and next_value == "var"
     
-    def is_statement(self, next_type, next_value) -> bool:
+    def is_statement(self, next_type, next_value):
         return self.is_keyword(next_type) and next_value in ("let", "if", "while", "do", "return")
     
-    def is_expression(self, next_type, next_value) -> bool:
+    def is_expression(self, next_type, next_value):
         return self.is_term(next_type, next_value)
 
-    def is_expression_list(self, next_type, next_value) -> bool:
+    def is_expression_list(self, next_type, next_value):
         return self.is_expression(next_type, next_value)
 
-    def is_term(self, next_type, next_value) -> bool:
+    def is_term(self, next_type, next_value):
         return (
             self.is_identifier(next_type)
             or self.is_literal(next_type, next_value, "(")
@@ -97,11 +94,11 @@ class Parser:
             or next_type == "stringConstant"
         )
 
-    def compile(self) -> None:
+    def compile(self):
         self.compile_class()
         print("Finished compilation.")
 
-    def compile_class(self) -> None:
+    def compile_class(self):
         if self.current_type != "keyword" and self.current_value != "class":
             raise ParserError(f"Jack program must start with 'class' keyword, found '{self.current_value}'")
         
@@ -144,7 +141,7 @@ class Parser:
         
         self.write_non_terminal("class")
 
-    def compile_class_var_dec(self) -> None:
+    def compile_class_var_dec(self):
         self.write_non_terminal("classVarDec", begin=True)
 
         next_type, next_value = self.peek()
@@ -184,7 +181,7 @@ class Parser:
 
         self.write_non_terminal("classVarDec")
 
-    def compile_subroutine(self) -> None:
+    def compile_subroutine(self):
         self.write_non_terminal("subroutineDec", begin=True)
 
         next_type, next_value = self.peek()
@@ -256,7 +253,7 @@ class Parser:
         self.write_non_terminal("subroutineBody")
         self.write_non_terminal("subroutineDec")
 
-    def compile_parameter_list(self) -> None:
+    def compile_parameter_list(self):
         self.write_non_terminal("parameterList", begin=True)
 
         next_type, next_value = self.peek()
@@ -290,7 +287,7 @@ class Parser:
 
         self.write_non_terminal("parameterList")
 
-    def compile_var_dec(self) -> None:
+    def compile_var_dec(self):
         self.write_non_terminal("varDec", begin=True)
 
         next_type, next_value = self.peek()
@@ -327,7 +324,7 @@ class Parser:
 
         self.write_non_terminal("varDec")
 
-    def compile_statements(self) -> None:
+    def compile_statements(self):
         self.write_non_terminal("statements", begin=True)
 
         while self.is_statement(self.current_type, self.current_value):
@@ -349,7 +346,7 @@ class Parser:
 
         self.write_non_terminal("statements")
 
-    def compile_do(self) -> None:
+    def compile_do(self):
         self.write_non_terminal("doStatement", begin=True)
 
         next_type, next_value = self.peek()
@@ -404,7 +401,7 @@ class Parser:
 
         self.write_non_terminal("doStatement")
 
-    def compile_let(self) -> None:
+    def compile_let(self):
         self.write_non_terminal("letStatement", begin=True)
 
         next_type, next_value = self.peek()
@@ -452,7 +449,7 @@ class Parser:
 
         self.write_non_terminal("letStatement")
 
-    def compile_while(self) -> None:
+    def compile_while(self):
         self.write_non_terminal("whileStatement", begin=True)
 
         next_type, next_value = self.peek()
@@ -497,7 +494,7 @@ class Parser:
 
         self.write_non_terminal("whileStatement")
 
-    def compile_return(self) -> None:
+    def compile_return(self):
         self.write_non_terminal("returnStatement", begin=True)
 
         next_type, next_value = self.peek()
@@ -517,7 +514,7 @@ class Parser:
 
         self.write_non_terminal("returnStatement")
 
-    def compile_if(self) -> None:
+    def compile_if(self):
         self.write_non_terminal("ifStatement", begin=True)
 
         next_type, next_value = self.peek()
@@ -583,7 +580,7 @@ class Parser:
 
         self.write_non_terminal("ifStatement")
 
-    def compile_expression_list(self) -> None:
+    def compile_expression_list(self):
         self.write_non_terminal("expressionList", begin=True)
         
         self.compile_expression()
@@ -601,7 +598,7 @@ class Parser:
 
         self.write_non_terminal("expressionList")
 
-    def compile_expression(self) -> None:
+    def compile_expression(self):
         self.write_non_terminal("expression", begin=True)
 
         self.compile_term()
@@ -624,7 +621,7 @@ class Parser:
 
         self.write_non_terminal("expression")
 
-    def compile_term(self) -> None:
+    def compile_term(self):
         self.write_non_terminal("term", begin=True)
 
         if self.is_keyword(self.current_type) or self.current_type == "integerConstant" or self.current_type == "stringConstant":

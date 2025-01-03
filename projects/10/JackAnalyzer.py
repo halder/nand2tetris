@@ -1,16 +1,11 @@
-"""
-Optimizations:
-    * tokenizer does NOT handle nested comments & "comments" within string constants
-"""
-
 import sys
 import os
 
 import compilation_engine
 import tokenizer
 
-TOKEN_DIR = "tokenized_jack_files"
-os.makedirs(TOKEN_DIR, exist_ok=True)
+#TOKEN_DIR = "tokenized_jack_files"
+#os.makedirs(TOKEN_DIR, exist_ok=True)
 
 cwd = os.getcwd()
 arg = sys.argv[1]
@@ -21,7 +16,7 @@ if arg.endswith(".jack"):
 
 # translates multiple files in provided directory
 else:
-    os.makedirs(f"{TOKEN_DIR}/{arg}", exist_ok=True)
+    #os.makedirs(f"{TOKEN_DIR}/{arg}", exist_ok=True)
     os.chdir(arg)
     dir_files = os.listdir()
     jack_files = [f"{arg}/{file}" for file in dir_files if file.endswith(".jack")]
@@ -34,12 +29,12 @@ for jack_file in jack_files:
     
     list_of_tokens = tokenizer.get_tokens(content)
 
-    with open(f"{TOKEN_DIR}/{jack_file.replace('.jack', '.xml')}", "a") as target_file:
+    with open(f"{jack_file.replace('.jack', '.xml')}", "a") as target_file:
         parser = compilation_engine.Parser(list_of_tokens, target_file)
 
         parser.compile()
 
-        # Note: Subsequent code is used for pre-compilation engine steps to validate tokenizer.        
+        # Note: Subsequent code is used for pre-compilation engine steps to validate tokenizer.
         #target_file.write("<tokens>\n")
         
         #for token in list_of_tokens:

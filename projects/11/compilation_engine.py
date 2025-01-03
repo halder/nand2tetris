@@ -2,8 +2,6 @@
 See documents/jack_grammar.pdf for full grammar flow specification.
 """
 
-from io import TextIOWrapper
-
 import symbol_table
 import vm_writer
 import util
@@ -14,7 +12,7 @@ class ParserError(Exception):
 
 
 class Parser:
-    def __init__(self, tokens: list[dict], file: TextIOWrapper) -> None:
+    def __init__(self, tokens, file):
         self.tokens = tokens
         self.n = len(self.tokens)
         self.i = 0
@@ -25,7 +23,7 @@ class Parser:
         self.vm_writer = vm_writer.VMWriter(file)
         self.label_counter = 0
 
-    def code_write(self, expression: list) -> None:
+    def code_write(self, expression):
         if isinstance(expression, int):
             self.vm_writer.write_push("constant", expression)
         
@@ -140,76 +138,76 @@ class Parser:
             for expr in expression:
                 self.code_write(expr)
 
-    def generate_labels(self, statement: str) -> list[str]:
-            """
-            statement: "while"  -> [label_while_end, label_while_expression]
-            statement: "if"     -> [if_end_label, if_false_label]
-            """
-            labels = []
-            if statement == "while":
-                labels.append(f"{self.current_class}.{self.current_subroutine}__{statement.upper()}_END${self.label_counter}")
-                labels.append(f"{self.current_class}.{self.current_subroutine}__{statement.upper()}_EXPR${self.label_counter}")
-                
-                self.label_counter += 1
+    def generate_labels(self, statement):
+        """
+        statement: "while"  -> [label_while_end, label_while_expression]
+        statement: "if"     -> [if_end_label, if_false_label]
+        """
+        labels = []
+        if statement == "while":
+            labels.append(f"{self.current_class}.{self.current_subroutine}__{statement.upper()}_END${self.label_counter}")
+            labels.append(f"{self.current_class}.{self.current_subroutine}__{statement.upper()}_EXPR${self.label_counter}")
             
-            elif statement == "if":
-                labels.append(f"{self.current_class}.{self.current_subroutine}__{statement.upper()}_END${self.label_counter}")
-                labels.append(f"{self.current_class}.{self.current_subroutine}__{statement.upper()}_FALSE${self.label_counter}")
-                
-                self.label_counter += 1
+            self.label_counter += 1
+        
+        elif statement == "if":
+            labels.append(f"{self.current_class}.{self.current_subroutine}__{statement.upper()}_END${self.label_counter}")
+            labels.append(f"{self.current_class}.{self.current_subroutine}__{statement.upper()}_FALSE${self.label_counter}")
             
-            else:
-                raise ValueError("label must be either of 'while', 'if'.")
+            self.label_counter += 1
+        
+        else:
+            raise ValueError("label must be either of 'while', 'if'.")
 
-            return labels
+        return labels
 
-    def has_more_tokens(self) -> bool:
+    def has_more_tokens(self):
         return True if (self.i + 1) < self.n else False
     
-    def advance(self) -> None:
+    def advance(self):
         if self.has_more_tokens():
             self.i += 1
             self.current_type = self.tokens[self.i]["type"]
             self.current_value = self.tokens[self.i]["value"]
 
-    def peek(self) -> tuple[str]:
+    def peek(self):
         if self.has_more_tokens():
             return self.tokens[self.i + 1]["type"], self.tokens[self.i + 1]["value"]
 
-    def is_literal(self, next_type, next_value, expectation) -> bool:
+    def is_literal(self, next_type, next_value, expectation):
         return next_type == "symbol" and next_value == expectation
     
-    def is_type(self, next_type, next_value) -> bool:
+    def is_type(self, next_type, next_value):
         return self.is_identifier(next_type) or (self.is_keyword(next_type) and next_value in ("int", "char", "boolean"))
     
-    def is_operation(self, next_type, next_value) -> bool:
+    def is_operation(self, next_type, next_value):
         return next_type == "symbol" and next_value in "+-*/&|<>="
     
-    def is_keyword(self, next_type) -> bool:
+    def is_keyword(self, next_type):
         return next_type == "keyword"
 
-    def is_identifier(self, next_type) -> bool:
+    def is_identifier(self, next_type):
         return next_type == "identifier"
     
-    def is_class_var_dec(self, next_type, next_value) -> bool:
+    def is_class_var_dec(self, next_type, next_value):
         return self.is_keyword(next_type) and next_value in ("static", "field")
     
-    def is_subroutine_dec(self, next_type, next_value) -> bool:
+    def is_subroutine_dec(self, next_type, next_value):
         return self.is_keyword(next_type) and next_value in ("constructor", "function", "method")
 
-    def is_var_dec(self, next_type, next_value) -> bool:
+    def is_var_dec(self, next_type, next_value):
         return self.is_keyword(next_type) and next_value == "var"
     
-    def is_statement(self, next_type, next_value) -> bool:
+    def is_statement(self, next_type, next_value):
         return self.is_keyword(next_type) and next_value in ("let", "if", "while", "do", "return")
     
-    def is_expression(self, next_type, next_value) -> bool:
+    def is_expression(self, next_type, next_value):
         return self.is_term(next_type, next_value)
 
-    def is_expression_list(self, next_type, next_value) -> bool:
+    def is_expression_list(self, next_type, next_value):
         return self.is_expression(next_type, next_value)
 
-    def is_term(self, next_type, next_value) -> bool:
+    def is_term(self, next_type, next_value):
         return (
             self.is_identifier(next_type)
             or self.is_literal(next_type, next_value, "(")
@@ -220,10 +218,10 @@ class Parser:
             or next_type == "stringConstant"
         )
 
-    def compile(self) -> None:
+    def compile(self):
         self.compile_class()
 
-    def compile_class(self) -> None:
+    def compile_class(self):
         if self.current_type != "keyword" and self.current_value != "class":
             raise ParserError(f"Jack program must start with 'class' keyword, found '{self.current_value}'")
 
@@ -263,7 +261,7 @@ class Parser:
         
         self.advance() # final '}'
         
-    def compile_class_var_dec(self) -> None:
+    def compile_class_var_dec(self):
         var_kind = self.current_value
         
         next_type, next_value = self.peek()
@@ -308,7 +306,7 @@ class Parser:
         else:
             raise ParserError(f"classVarDec must be followed by '}}' or subroutineDec, found '{next_type}': '{next_value}'")
 
-    def compile_subroutine(self) -> None:
+    def compile_subroutine(self):
         self.symbol_table.start_subroutine()
 
         if self.current_value == "method":
@@ -421,7 +419,7 @@ class Parser:
         else:
             raise ParserError(f"subroutineDec must be followed by subroutineDec or '}}', found '{next_type}': '{next_value}'")
 
-    def compile_parameter_list(self) -> None:
+    def compile_parameter_list(self):
         var_kind = "argument"
         var_type = self.current_value
         
@@ -462,7 +460,7 @@ class Parser:
         else:
             raise ParserError(f"parameterList must be followed by ')', found '{next_type}': '{next_value}'")
 
-    def compile_var_dec(self) -> int:
+    def compile_var_dec(self):
         n_args = 1
         var_kind = "local"
 
@@ -510,7 +508,7 @@ class Parser:
 
         return n_args
 
-    def compile_statements(self) -> None:
+    def compile_statements(self):
         while self.is_statement(self.current_type, self.current_value):
 
             if self.current_value == "let":
@@ -528,7 +526,7 @@ class Parser:
             else: # "return"
                 self.compile_return()
 
-    def compile_do(self) -> None:
+    def compile_do(self):
         n_args = 0
 
         next_type, next_value = self.peek()
@@ -613,7 +611,7 @@ class Parser:
         else:
             raise ParserError(f"'do' statement must be followed by another statement or '}}', found '{next_type}': '{next_value}'")
 
-    def compile_let(self) -> None:
+    def compile_let(self):
         next_type, next_value = self.peek()
         if self.is_identifier(next_type):
             self.advance()
@@ -685,7 +683,7 @@ class Parser:
         else:
             raise ParserError(f"'let' statement must be followed by another statement or '}}', found '{next_type}': '{next_value}'")
 
-    def compile_while(self) -> None:
+    def compile_while(self):
         next_type, next_value = self.peek()
         if self.is_literal(next_type, next_value, "("):
             self.advance()
@@ -736,7 +734,7 @@ class Parser:
         else:
             raise ParserError(f"'while' statement must be followed by another statement or '}}', found '{next_type}': '{next_value}'")
 
-    def compile_return(self) -> None:
+    def compile_return(self):
         next_type, next_value = self.peek()
         if self.is_expression(next_type, next_value):
             self.advance()
@@ -759,7 +757,7 @@ class Parser:
         else:
             raise ParserError(f"'return' statement must be followed by another statement or '}}', found '{next_type}': '{next_value}'")
 
-    def compile_if(self) -> None:
+    def compile_if(self):
         next_type, next_value = self.peek()
         if self.is_literal(next_type, next_value, "("):
             self.advance()
@@ -828,7 +826,7 @@ class Parser:
         else:
             raise ParserError(f"'if' statement must be followed by another statement or '}}', found '{next_type}': '{next_value}'")
 
-    def compile_expression_list(self) -> None:
+    def compile_expression_list(self):
         expression_list = []
         n_args = 1
 
@@ -848,7 +846,7 @@ class Parser:
 
         return n_args, expression_list
 
-    def compile_expression(self) -> None:
+    def compile_expression(self):
         expression = []
         expression.append(self.compile_term())
         
@@ -871,7 +869,7 @@ class Parser:
 
         return expression
 
-    def compile_term(self) -> None:
+    def compile_term(self):
         if self.is_keyword(self.current_type) or self.current_type == "integerConstant" or self.current_type == "stringConstant":
             term = self.current_value
             if self.current_type == "stringConstant":

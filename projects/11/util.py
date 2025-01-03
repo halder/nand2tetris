@@ -21,7 +21,7 @@ OPS_MAP = {
         }
     }
 
-def order_expression(expression: list) -> None:
+def order_expression(expression):
     """Inplace postfix ordering of expression."""
     switch_i = []
 
